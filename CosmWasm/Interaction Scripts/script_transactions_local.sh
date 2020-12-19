@@ -29,7 +29,7 @@ echo "Prescription content transaction CORAL TESTNET" >> results_transactions_co
 echo "" >> results_transactions_coral.txt
 echo $APPROVE >> results_transactions_coral.txt
 echo "" >> results_transactions_coral.txt
-echo "" >> results_transactions_coral.txts
+echo "" >> results_transactions_coral.txt
 
 else
    echo ""
