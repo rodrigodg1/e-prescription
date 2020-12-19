@@ -7,20 +7,19 @@
   - wasmd
   
   
- ### for contract
- - used: escrow v0.7.0
+ ### for the contract
  * upload contract file in
  > ~/cosmwasm-examples-local/escrow/target/wasm32-unknown-unknown/release$
   
   
- * execute the steps in script
+ * execute the steps in script (local or testnet)
 
 
 ### for automation with scripts
 
 *see in transactions script*
 
-* use export for
+* before running the scripts, use export for
 
 > $APPROVE
 
