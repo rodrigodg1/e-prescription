@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-
+#prescription
 APPROVE='{"approve":{"quantity":[{"amount":"1","denom":"ushell","medicines":"Vicodin (hydrocodone/acetaminophen) and Simvastatin (Generic for Zocor)","diagnosis":"Anxiety: Lucys sudden confinement in hospital, diminished ability to perform daily activities, and concerns about her family and health, predispose her to experiencing anxiety, a potential trigger of depression"}]}}'
 
 
@@ -24,16 +24,16 @@ read op
 if [[ "$op" = "y" ]]
 then
 
-echo "" > results_transactions_coral.txt
-echo "Prescription content transaction CORAL TESTNET" >> results_transactions_coral.txt
-echo "" >> results_transactions_coral.txt
-echo $APPROVE >> results_transactions_coral.txt
-echo "" >> results_transactions_coral.txt
-echo "" >> results_transactions_coral.txt
+echo "" > results_transactions_local.txt
+echo "Prescription content transaction CORAL TESTNET" >> results_transactions_local.txt
+echo "" >> results_transactions_local.txt
+echo $APPROVE >> results_transactions_local.txt
+echo "" >> results_transactions_local.txt
+echo "" >> results_transactions_local.txt
 
 else
    echo ""
-   echo "# appending results #" >> results_transactions_coral.txt
+   echo "# appending results #" >> results_transactions_local.txt
    echo ""	
 fi
 
@@ -53,7 +53,7 @@ echo "Transaction Number: $i of $MAX " >> results_transactions.txt
 echo ""
 
 { time wasmcli tx wasm execute $CONTRACT "$APPROVE" --from doctor --chain-id="localnet" --gas-prices="0.025ucosm" --gas="auto" --gas-adjustment="1.2" -y ; } 2>> results_transactions.txt
-echo "" >> results_transactions.txt
+echo "" >> results_transactions_local.txt
 
 
 done
