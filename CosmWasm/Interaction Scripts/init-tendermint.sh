@@ -2,8 +2,8 @@
 
 
 
-echo "o wasmd deverá estar no diretório /home"
-echo "iniciando..."
+echo "wasmd must be in the directory/home "
+echo "starting..."
 
 sleep 3
 
