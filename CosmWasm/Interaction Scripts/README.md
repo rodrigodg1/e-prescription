@@ -9,7 +9,7 @@
   
  ### for the contract
  * upload contract file in
- > ~/cosmwasm-examples-local/escrow/target/wasm32-unknown-unknown/release$
+ > target/wasm32-unknown-unknown/release$
   
   
  * execute the steps in script (local or testnet)
