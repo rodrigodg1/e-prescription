@@ -1,15 +1,15 @@
 [package]
-name = "cw-escrow"
-version = "0.6.0"
+name = "cw-medical-pharmacy"
+version = "0.7.0"
 authors = ["Rodrigo"]
-edition = "2020"
+edition = "2018"
 license = "Apache-2.0"
-description = "Simple Doctor/Pharmacy Contract"
+description = "Simple Contract for Medical and Pharmacy Applications"
+repository = "https://github.com/rodrigodg1/e-prescription"
 
 exclude = [
   # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
-  "contract.wasm",
-  "hash.txt",
+  "artifacts/",
 ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -37,11 +37,12 @@ cranelift = ["cosmwasm-vm/default-cranelift"]
 singlepass = ["cosmwasm-vm/default-singlepass"]
 
 [dependencies]
-cosmwasm-std = "0.10.0"
-cosmwasm-storage = "0.10.0"
+cosmwasm-std = "0.11.1"
+cosmwasm-storage = "0.11.1"
 schemars = "0.7"
+thiserror = "1.0.20"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 
 [dev-dependencies]
-cosmwasm-vm = { version = "0.10.0", default-features = false }
-cosmwasm-schema = "0.10.0"
+cosmwasm-vm = { version = "0.11.1", default-features = false }
+cosmwasm-schema = "0.11.1"

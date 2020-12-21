@@ -13,9 +13,10 @@ import (
 	Contract model - token is unique for each sale
 */
 type Contract struct {
-	Token          string `json:"token"`
-	PatientAddress string `json:"patientAddress"`
-	MedicationSold string `json:"medicationSold"`
+	Token           string `json:"token"`
+	PatientAddress  string `json:"patientAddress"`
+	PharmacyAddress string `json:"pharmacyAddress"`
+	MedicationSold  string `json:"medicationSold"`
 }
 
 func (cn *Contract) Init(stub shim.ChaincodeStubInterface) sc.Response {
@@ -42,17 +43,19 @@ func (cn *Contract) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 	Function used to send a new Contract to the ledger, receives 3 args on this order:
 	arg[0]: string - Contract token
 	arg[1]: string - Patient Address
-	arg[2]: string - Medication Sold
+	arg[2]: string - Pharmacy Address
+	arg[3]: string - Medication Sold
 */
 func (cn *Contract) Send(stub shim.ChaincodeStubInterface, args []string) sc.Response {
-	if len(args) != 3 {
-		return shim.Error("Wrong number of arguments! Expected 3 but got " + strconv.Itoa(len(args)))
+	if len(args) != 4 {
+		return shim.Error("Wrong number of arguments! Expected 4 but got " + strconv.Itoa(len(args)))
 	}
 
 	contract := &Contract{
-		Token:          args[0],
-		PatientAddress: args[1],
-		MedicationSold: args[2],
+		Token:           args[0],
+		PatientAddress:  args[1],
+		PharmacyAddress: args[2],
+		MedicationSold:  args[3],
 	}
 
 	// Get the JSON encoding of the Contract

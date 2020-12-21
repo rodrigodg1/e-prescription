@@ -7,6 +7,8 @@ static CONFIG_KEY: &[u8] = b"config";
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct State {
+    //doctor and patient address
+    // some extra information like source
     pub arbiter: CanonicalAddr,
     pub recipient: CanonicalAddr,
     pub source: CanonicalAddr,
@@ -27,7 +29,6 @@ impl State {
                 return true;
             }
         }
-
         false
     }
 }

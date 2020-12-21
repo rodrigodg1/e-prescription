@@ -1,0 +1,21 @@
+{
+  "name": "healthcare-blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fabric-ca-client": "^1.1.0",
+    "fabric-client": "^1.1.0",
+    "fabric-network": "^1.4.5",
+    "grpc": "^1.24.3",
+    "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node script.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
