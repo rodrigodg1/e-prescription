@@ -1,4 +1,5 @@
 
+
 ## Requirements
 
  1. [Go](https://golang.org/dl/) `v1.14` 
@@ -22,11 +23,19 @@ the contract file is at `target/wasm32-unknown-unknown/release/`
 
 ## Uploading and Interacting
 
-for configuration of keys, network, node and account, see the next steps in the script at:
--  **Interaction Scripts/local-node-script-doctor.sh**
+### Local
+For configuration of keys, network, node and account, see the next steps in the script at:
+-  **Interaction Scripts/local-node-script.sh** 
 
-and to send transactions: 
-- **Interaction Scripts/script_transactions_local.sh** 
+for **local** transactions script:
+-  **Interaction Scripts/transactions-script-local.sh** 
+
+### Testnet
+testnet configuration:
+- **Interaction Scripts/testnet-script.sh** 
+
+for **testnet** transactions script:
+-  **Interaction Scripts/transactions-script-testnet.sh** 
 
 
 
