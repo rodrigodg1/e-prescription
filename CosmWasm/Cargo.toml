@@ -1,11 +1,10 @@
 [package]
 name = "cw-escrow"
 version = "0.6.0"
-authors = ["Ethan Frey <ethanfrey@users.noreply.github.com>"]
-edition = "2018"
+authors = ["Rodrigo"]
+edition = "2020"
 license = "Apache-2.0"
-description = "Simple CosmWasm contract for an escrow with arbiter and timeout"
-repository = "https://github.com/CosmWasm/cosmwasm-examples"
+description = "Simple Doctor/Pharmacy Contract"
 
 exclude = [
   # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
