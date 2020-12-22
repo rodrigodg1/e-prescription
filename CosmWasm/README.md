@@ -1,5 +1,6 @@
 
 
+
 ## Requirements
 
  1. [Go](https://golang.org/dl/) `v1.14` 
@@ -25,15 +26,15 @@ the contract file is at `target/wasm32-unknown-unknown/release/`
 
 ### Local
 For configuration of keys, network, node and account, see the next steps in the script at:
--  **Interaction Scripts/local-node-script.sh** 
+-  [Scripts/local-node-script.sh](https://github.com/rodrigodg1/e-prescription/blob/master/CosmWasm/Uploading%20and%20Interaction%20Scripts/local-node-script.sh)
 
 for **local** transactions script:
--  **Interaction Scripts/transactions-script-local.sh** 
+-  [Scripts/transactions-script-local.sh](https://github.com/rodrigodg1/e-prescription/blob/master/CosmWasm/Uploading%20and%20Interaction%20Scripts/transactions-script-local.sh)
 
 ### Testnet
 
 for **testnet** transactions script:
--  **Interaction Scripts/transactions-script-testnet.sh** 
+-  [Scripts/transactions-script-testnet.sh](https://github.com/rodrigodg1/e-prescription/blob/master/CosmWasm/Uploading%20and%20Interaction%20Scripts/transactions-script-testnet.sh)
 
 
 
