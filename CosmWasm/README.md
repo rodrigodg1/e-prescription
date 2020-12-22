@@ -31,8 +31,6 @@ for **local** transactions script:
 -  **Interaction Scripts/transactions-script-local.sh** 
 
 ### Testnet
-testnet configuration:
-- **Interaction Scripts/testnet-script.sh** 
 
 for **testnet** transactions script:
 -  **Interaction Scripts/transactions-script-testnet.sh** 
