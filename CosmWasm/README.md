@@ -35,6 +35,6 @@ for **local** transactions script:
 
 for **testnet** transactions script:
 -  [Scripts/transactions-script-testnet-8-validators-CoralTestnet.sh](https://github.com/rodrigodg1/e-prescription/blob/master/CosmWasm/Scripts/transactions-script-testnet-8-validators-CoralTestnet.sh)
--  [Scripts/transactions-script-testnet-12-validators-MusselTestnet.sh](https://github.com/rodrigodg1/e-prescription/blob/master/CosmWasm/Scripts/transactions-script-testnet-12-validators-MusselTestnet.sh) use wasmd v0.14.0
+-  [Scripts/transactions-script-testnet-12-validators-MusselTestnet.sh](https://github.com/rodrigodg1/e-prescription/blob/master/CosmWasm/Scripts/transactions-script-testnet-12-validators-MusselTestnet.sh) use wasmd v0.14.0 and Go v1.15
 
 
