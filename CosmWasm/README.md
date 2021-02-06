@@ -11,7 +11,7 @@
 	 3.  `make build`
 	 4.  move the binaries `wasmd` and `wasmcli` from `build/` to `/usr/local/go/bin/`
 
-the steps for installation on page: [CosmWasm Installation](https://docs.cosmwasm.com/getting-started/installation.html)
+the steps for installation on page: [Getting Started/Installation](https://docs.cosmwasm.com/)
 
 ## Usage
 1.  In terminal, compile the project with
