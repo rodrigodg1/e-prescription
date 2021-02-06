@@ -1,4 +1,4 @@
-### Intructions
+### Instructions
 
   
  ### for the contract
