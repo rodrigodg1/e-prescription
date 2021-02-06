@@ -1,11 +1,5 @@
-### intructions
+### Intructions
 
-* first: installed
-  - go
-  - rust
-  - wasmcli
-  - wasmd
-  
   
  ### for the contract
  * upload contract file in
