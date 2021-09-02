@@ -1,0 +1,10 @@
+1 -> create the prescriptions (python run,py)
+2 -> In contract folder, upload and instantiate a contract
+    - before run script, export CONTRACT variable, NODE and TXFLAG  
+    - follow the documentation in docs.cosmwasm.com
+    - send transactions to network with script run.sh
+	in : home/rodrigo/Desktop/evaluations-code/cosmwasm-examples/contracts/escrow/target/wasm32-unknown-unknown/release/
+
+
+3 -> After send transaction and results in results_transaction_oysternet.txt
+    - execute format_transaction_time.py for remove spaces
