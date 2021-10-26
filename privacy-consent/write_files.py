@@ -1,7 +1,7 @@
 #store the sizes in file
 from file_operations import *
 
-def write_prescription(path,prescription_file_size):
+def write_prescription_size(path,prescription_file_size):
     with open(path, 'a') as f:
         f.write(str(prescription_file_size))
         f.write("\n")

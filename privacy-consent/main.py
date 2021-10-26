@@ -69,16 +69,32 @@ def create_diagnosis_data(diagnosis):
 
 
 
+def create_file_with_prescription_size(path_origin,path_destination):
+    count_prescription_files = count_files_in_directory("prescription-files/")
+    for p in range (0,count_prescription_files):
+            prescription_file_size = file_size(f"{path_origin}{p}")
+            write_prescription_size(f"{path_destination}",prescription_file_size)
 
-def create_data_prescription_random(n,doctor,patient_public_key):
+
+
+
+
+
+
+
+
+
+
+def create_data_prescription_random(n,doctor,patient_public_key,max_character_diagnosis):
 
     for prescricao in range(0,n):
+        print(f"Prescription {prescricao}")
         #patient Data
+        #name = max 25 character
+        #age = 18 up to 99
         patient_name = string.ascii_lowercase
-        patient_name = ''.join(random.choice(patient_name) for i in range(10))
-        #print (patient_name)
+        patient_name = ''.join(random.choice(patient_name) for i in range(25))
         patient_age = randrange(18,99)
-        #print(patient_age)
         patient_personal_id = create_patient_data(patient_name,patient_age)
         patient_personal_id = patient_personal_id.encode()
 
@@ -88,11 +104,11 @@ def create_data_prescription_random(n,doctor,patient_public_key):
 
 
         #medication data
+        #medication name max 50 char
+        #dosage min 1 up to 1000
         medication_name = string.ascii_lowercase
-        medication_name = ''.join(random.choice(medication_name) for i in range(25))
-        #print (patient_name)
-        dosage = randrange(3,500)
-        #print(patient_age)
+        medication_name = ''.join(random.choice(medication_name) for i in range(50))
+        dosage = randrange(1,1000)
         medication_and_dosage = create_medication_data(medication_name,dosage)
         medication_and_dosage = medication_and_dosage.encode()
 
@@ -103,7 +119,9 @@ def create_data_prescription_random(n,doctor,patient_public_key):
 
         # diagnosis data
         diagnosis_data = string.ascii_lowercase
-        diagnosis_data = ''.join(random.choice(diagnosis_data) for i in range(1024))
+        #min 100 char
+        number_of_characters = dosage = randrange(100,max_character_diagnosis)
+        diagnosis_data = ''.join(random.choice(diagnosis_data) for i in range(number_of_characters))
         diagnosis = create_diagnosis_data(diagnosis_data)
         diagnosis = diagnosis.encode()
 
@@ -115,13 +133,19 @@ def create_data_prescription_random(n,doctor,patient_public_key):
         prescription_with_clear_text = Prescription(patient_personal_id,medication_and_dosage,diagnosis)
         prescription = f"prescription-files/prescription{prescricao}"
         with open(prescription, 'w') as f:
+            #correspondente aos dados pessoais
             f.write(str(prescription_with_clear_text.get_prescription()[0]))
             f.write(",")
             f.write("\n")
+            #correspondente ao medicamento
             f.write(str(prescription_with_clear_text.get_prescription()[1]))
             f.write(",")
             f.write("\n")
+            #correspondente ao diagnóstico
             f.write(str(prescription_with_clear_text.get_prescription()[2]))
+
+
+
 
 
 
@@ -131,27 +155,21 @@ def create_data_prescription_random(n,doctor,patient_public_key):
         #salva a prescrição com os dados criptografados dentro do diretorio
         prescription = f"encrypted-prescription-files/enc_prescription{prescricao}"
         with open(prescription, 'w') as f:
+            #correspondente aos dados pessoais
             f.write(str(prescription_with_data_encrypted.get_prescription()[0]))
             f.write(",")
             f.write("\n")
+            #correspondente ao medicamento
             f.write(str(prescription_with_data_encrypted.get_prescription()[1]))
             f.write(",")
             f.write("\n")
+            #correspondente ao diagnóstico
             f.write(str(prescription_with_data_encrypted.get_prescription()[2]))
 
 
-        #print(f"\nPrescrição: {prescricao}")
-        #print(prescription_.get_prescription())
 
-
-
-
-
-
-
-
-
-
+    create_file_with_prescription_size("prescription-files/prescription","report/prescription_size_clear_text_in_bytes")
+    create_file_with_prescription_size("encrypted-prescription-files/enc_prescription","report/prescription_size_encrypted_in_bytes")
 
 
 
@@ -213,18 +231,19 @@ while(True):
     if(op == "1"):
         try:
             number_of_prescriptions = int(input("Number of prescriptions: "))
-            create_data_prescription_random(number_of_prescriptions,doctor,patient1_public_key)
-            print("Success !!!\n")
-        except:
-            print("Error in prescription creation\n")
+            create_data_prescription_random(number_of_prescriptions,doctor,patient1_public_key,5000)
+            #print("Success !!!\n")
+        except Exception as e:
+            print(e)
+           # print("Error in prescription creation\n")
 
     if(op == "2"):
         #call shell script to remove last evaluation
         try:
             subprocess.call(['sh', './reset-evaluations.sh'])
             print("Success !!!")
-        except:
-            print("Fail in remove evaluations")
+        except Exception as e:
+            print(e)
 
     if(op == "3"):
         file_numbers = count_files_in_directory("prescription-files/")

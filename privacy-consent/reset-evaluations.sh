@@ -7,6 +7,6 @@ rm -rf encrypted-prescription-files/*
 rm -rf report/memory-evaluation/*
 rm -rf report/memory-evaluation/*
 rm -rf report/execution-time-evaluation/*
-rm -rf report/encripted_prescriptions_size_in_bytes.txt
-rm -rf report/prescriptions_size_in_bytes.txt
+rm -rf report/prescription_size_encrypted_in_bytes
+rm -rf report/prescription_size_clear_text_in_bytes
 ##
