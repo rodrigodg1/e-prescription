@@ -17,6 +17,9 @@ from random import randrange
 import subprocess
 
 
+import tracemalloc
+import time
+
 
 patient1 = Privacy()
 patient_secret_key,patient1_public_key,patient1_signing_key,patient1_signer,patient1_verifying_key = patient1.create_delegator_keys()
@@ -29,7 +32,7 @@ doctor_secret_key,doctor_public_key = doctor.create_delegatee_keys()
 
 
 
-#recebe os dados pessoais do paciente e retorna um dicionario como string
+#receives the patient's personal data and returns a dictionary as a string
 def create_patient_data(name,age):
     
     patient_data = Patient(f"{name}",f"{age}")
@@ -66,19 +69,12 @@ def create_diagnosis_data(diagnosis):
     diagnosis_data_ = json.dumps(diagnosis_data_)
     return diagnosis_data_
 
-
-
-
-def create_file_with_prescription_size(path_origin,path_destination):
-    count_prescription_files = count_files_in_directory("prescription-files/")
-    for p in range (0,count_prescription_files):
-            prescription_file_size = file_size(f"{path_origin}{p}")
-            write_prescription_size(f"{path_destination}",prescription_file_size)
-
-
-
-
-
+def create_separate_data(i,path,prescription_data_type,data_to_write):
+    #cria uma arquivo separado para medicação e dosagem
+    path = f"separate-prescription-data/{path}{prescription_data_type}{i}"
+    with open(path, 'w') as f:
+        #correspondente aos dados pessoais
+        f.write(str(data_to_write)) 
 
 
 
@@ -87,8 +83,8 @@ def create_file_with_prescription_size(path_origin,path_destination):
 
 def create_data_prescription_random(n,doctor,patient_public_key,max_character_diagnosis):
 
-    for prescricao in range(0,n):
-        print(f"Prescription {prescricao}")
+    for i in range(0,n):
+        print(f"Prescription {i}")
         #patient Data
         #name = max 25 character
         #age = 18 up to 99
@@ -98,8 +94,36 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
         patient_personal_id = create_patient_data(patient_name,patient_age)
         patient_personal_id = patient_personal_id.encode()
 
-        #criptografar dados pessoais do paciente
+
+        #create a file with only the patient's personal data
+        create_separate_data(i,"personal_ID/","patient_personal_id_of_precription",patient_personal_id)
+          
+
+
+
+
+
+
+        #encrypt personal patient data
+        start_time = time.time() # start time execution
+        tracemalloc.start() # start memory usage
+        #encrypt patient personal identification
         capsule_patient_personal_id,cipher_patient_personal_id = doctor.encryption(patient_personal_id,patient_public_key)
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+
+        #write PERSONAL ID MEMORY USAGE
+        path = "report/memory-evaluation/PERSONAL_ID_encryption_memory_usage_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        #write PERSONAL ID EXECUTION TIME
+        path = "report/execution-time-evaluation/PERSONAL_ID_encryption_execution_time_in_ms.txt"
+        write_execution_time(path,time.time() - start_time)
+
+
+        #create a SEPARATE FILE for PERSONAL ID ENCRYPTED
+        create_separate_data(i,"personal_ID/encrypted/","ENCRYPTED_personal_id_of_prescription",cipher_patient_personal_id)     
 
 
 
@@ -112,9 +136,30 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
         medication_and_dosage = create_medication_data(medication_name,dosage)
         medication_and_dosage = medication_and_dosage.encode()
 
+        #create a SEPARATE FILE for medication and dosage
+        create_separate_data(i,"medication/","medication_of_prescription",medication_and_dosage)
 
-        #criptografar dados da medicação
+
+        #encrypt medication data
+        start_time = time.time() # execution time
+        tracemalloc.start() # memory usage
         capsule_medication_and_dosage,cipher_medication_and_dosage = doctor.encryption(medication_and_dosage,patient_public_key)
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+
+        #write MEDICATION MEMORY USAGE
+        path = "report/memory-evaluation/MEDICATION_memory_usage_encryption_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        ##write MEDICATION EXECUTION TIME
+        path = "report/execution-time-evaluation/MEDICATION_execution_time_encryption_in_ms.txt"
+        write_execution_time(path,time.time() - start_time)
+
+
+        #create a SEPARATE FILE for MEDICATION ENCRYPTED
+        create_separate_data(i,"medication/encrypted/","ENCRYPTED_medication_of_prescription",cipher_medication_and_dosage)
+
 
 
         # diagnosis data
@@ -125,13 +170,35 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
         diagnosis = create_diagnosis_data(diagnosis_data)
         diagnosis = diagnosis.encode()
 
-        #criptografar diagnóstico
+        #create a SEPARATE FILE for DIAGNOSIS PLAIN TEXT
+        create_separate_data(i,"diagnosis/","diagnosis_of_prescription",diagnosis)
+
+
+
+
+
+        #cryptography diagnosis
+        start_time = time.time() # time execution
+        tracemalloc.start() # memory usage
         capsule_diagnosis,cipher_diagnosis = doctor.encryption(diagnosis,patient_public_key)
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        path = "report/memory-evaluation/DIAGNOSIS_encryption_memory_usage_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        #time execution evaluation
+        path = "report/execution-time-evaluation/DIAGNOSIS_execution_time_encryption_in_ms.txt"
+        write_execution_time(path,time.time() - start_time)
+
+
+        #create a SEPARATE FILE for DIAGNOSIS ENCRYPTED
+        create_separate_data(i,"diagnosis/encrypted/","ENCRYPTED_diagnosis_of_prescription",cipher_diagnosis)
 
 
 
         prescription_with_clear_text = Prescription(patient_personal_id,medication_and_dosage,diagnosis)
-        prescription = f"prescription-files/prescription{prescricao}"
+        prescription = f"prescription-files/prescription{i}"
         with open(prescription, 'w') as f:
             #correspondente aos dados pessoais
             f.write(str(prescription_with_clear_text.get_prescription()[0]))
@@ -153,7 +220,7 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
         prescription_with_data_encrypted = Prescription(cipher_patient_personal_id,cipher_medication_and_dosage,cipher_diagnosis)
 
         #salva a prescrição com os dados criptografados dentro do diretorio
-        prescription = f"encrypted-prescription-files/enc_prescription{prescricao}"
+        prescription = f"encrypted-prescription-files/enc_prescription{i}"
         with open(prescription, 'w') as f:
             #correspondente aos dados pessoais
             f.write(str(prescription_with_data_encrypted.get_prescription()[0]))
@@ -166,60 +233,56 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
             #correspondente ao diagnóstico
             f.write(str(prescription_with_data_encrypted.get_prescription()[2]))
 
+    """
+        #salva a prescrição com os dados criptografados em forma binaria dentro do diretorio
+        #string para binario
+        prescription = f"binary_enc_prescription/bin_enc_prescription{i}"
+        file_numbers = count_files_in_directory("encrypted-prescription-files/")
 
+        with open(prescription, 'w') as f:
+            for p in range(0,file_numbers):
+                prescription_file = open_file(f"encrypted-prescription-files/enc_prescription{p}")
+                binary = str_to_binary(prescription_file)
+                f.write(binary)
+                
+        #desfaz binario para string
+        prescription = f"binary_enc_to_cipher_prescription/bin_enc_prescription_after_binary{i}"
+        file_numbers = count_files_in_directory("binary_enc_prescription/")
 
-    create_file_with_prescription_size("prescription-files/prescription","report/prescription_size_clear_text_in_bytes")
-    create_file_with_prescription_size("encrypted-prescription-files/enc_prescription","report/prescription_size_encrypted_in_bytes")
-
-
-
-
-
-"""
-
-patient1_personal_id = create_patient_data("Rodrigo", "25")
-patient1_personal_id = patient1_personal_id.encode()
-patient1_medication = create_medication_data("medication xyz", "32g")
-patient1_medication = patient1_medication.encode()
-patient1_diagnosis = create_diagnosis_data("o paciente 1 tem isso e aquilo apresentando grave ...")
-patient1_diagnosis = patient1_diagnosis.encode()
-
-
-
-
-
-
-print("antes de criptografar:")
-print(patient1_personal_id)
-print(patient1_medication)
-print(patient1_diagnosis)
-
-print("\ndepois de criptografar personal ID :")
-capsule_patient1_personal_id,cipher_patient1_personal_id = doctor.encryption(patient1_personal_id, patient1_public_key)
-print(cipher_patient1_personal_id)
-
-print("\ndepois de criptografar medicacao :")
-capsule,cipher_patient1_medication = doctor.encryption(patient1_medication, patient1_public_key)
-print(cipher_patient1_medication)
-
-print("\ndepois de criptografar diagnosis :")
-capsule,cipher_patient1_diagnosis = doctor.encryption(patient1_diagnosis, patient1_public_key)
-print(cipher_patient1_diagnosis)
-
-
-prescription = Prescription(capsule_patient1_personal_id,cipher_patient1_medication, cipher_patient1_diagnosis)   
-
-print("Dados da prescrição Criptografados: ")
-print(prescription.get_prescription())
+        with open(prescription, 'w') as f:
+            for p in range(0,file_numbers):
+                prescription_file = open_file(f"binary_enc_prescription/bin_enc_prescription{p}")
+                chiper = binary_to_str(prescription_file)
+                f.write(chiper)
     
+
+    """
+
+    #create a file with the clear text prescriptions sizes 
+    create_file_with_prescription_size("prescription-files/","prescription-files/prescription","report/prescription_size_clear_text_in_bytes")
     
-#my_text = patient_privacy.decrypt(capsule, ciphertext, patient_secret_key)
+    #create a file with the encrypted prescriptions sizes 
+    create_file_with_prescription_size("encrypted-prescription-files/","encrypted-prescription-files/enc_prescription","report/prescription_size_encrypted_in_bytes")
+    
+    #create a file with the encrypted medications sizes 
+    create_file_with_prescription_size("separate-prescription-data/medication/","separate-prescription-data/medication/medication_of_prescription","separate-prescription-data/encrypted_medication_size_in_bytes")
+   
+    #create a file with the encrypted diagnosis sizes 
+    create_file_with_prescription_size("separate-prescription-data/diagnosis/","separate-prescription-data/diagnosis/diagnosis_of_prescription","separate-prescription-data/encrypted_diagnosis_size_in_bytes")
+   
+    #create a file with the encrypted personal_ID sizes  
+    create_file_with_prescription_size("separate-prescription-data/personal_ID/","separate-prescription-data/personal_ID/patient_personal_id_of_precription","separate-prescription-data/encrypted_personal_ID_size_in_bytes")
+
+    
 
 
-"""
 
+    #create a file with the prescriptions sizes for binary encrypted size
+    #create_file_with_prescription_size("binary_enc_prescription/bin_enc_prescription","report/prescription_size_encrypted_binary_in_bytes")
 
-
+    #1 -> plain text
+    #2 -> encrypted_form
+    #3 -> binary send to network
 
 
 
@@ -232,10 +295,10 @@ while(True):
         try:
             number_of_prescriptions = int(input("Number of prescriptions: "))
             create_data_prescription_random(number_of_prescriptions,doctor,patient1_public_key,5000)
-            #print("Success !!!\n")
+            print("Success !!!\n")
         except Exception as e:
             print(e)
-           # print("Error in prescription creation\n")
+           
 
     if(op == "2"):
         #call shell script to remove last evaluation
@@ -251,15 +314,6 @@ while(True):
         for p in range(0,file_numbers):
             print("\n")
             prescription = open_file(f"prescription-files/prescription{p}")
-            print(prescription)
-            print(file_size(f"prescription-files/prescription{p}"))
+            print(prescription)    
 
-
-
-create_data_prescription_random(3,doctor,patient1_public_key)
-
-
-
-#print(my_text)
-    
         
