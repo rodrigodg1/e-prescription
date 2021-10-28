@@ -26,8 +26,8 @@ def binary_to_str(binary):
     jsn = ''.join(chr(int(x, 2)) for x in binary.split())
     return jsn
     
-def create_file_with_prescription_size(path_to_count,path_origin,path_destination):
+def create_file_with_size(path_to_count,directory,path_destination):
     count_prescription_files = count_files_in_directory(path_to_count)
     for p in range (0,count_prescription_files):
-            prescription_file_size = file_size(f"{path_origin}{p}")
-            write_prescription_size(f"{path_destination}",prescription_file_size)
+            size = file_size(f"{path_to_count}{directory}{p}")
+            write_prescription_size(f"{path_destination}",size)

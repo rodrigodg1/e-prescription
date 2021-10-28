@@ -7,6 +7,7 @@ rm -rf binary_enc_prescription/*
 rm -rf binary_enc_to_cipher_prescription/*
 
 
+rm -rf separate-prescription-data/ENCRYPTED*
 rm -rf separate-prescription-data/medication/medication*
 rm -rf separate-prescription-data/medication/encrypted/*
 
@@ -22,6 +23,9 @@ rm -rf separate-prescription-data/encrypted_diagnosis_size_in_bytes
 rm -rf separate-prescription-data/encrypted_medication_size_in_bytes
 rm -rf separate-prescription-data/encrypted_personal_ID_size_in_bytes
 
+
+rm -rf report/CLEAR*
+rm -rf report/ENCRYPTED*
 rm -rf report/memory-evaluation/*
 rm -rf report/execution-time-evaluation/*
 rm -rf report/prescription_size_encrypted_in_bytes

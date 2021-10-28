@@ -7,8 +7,9 @@ from medication import *
 from diagnosis import*
 from file_operations import *
 from format_transaction_time import *
+from statistics import statistics
 from write_files import *
-
+from statistics import *
 
 import json
 import string
@@ -70,10 +71,8 @@ def create_diagnosis_data(diagnosis):
     return diagnosis_data_
 
 def create_separate_data(i,path,prescription_data_type,data_to_write):
-    #cria uma arquivo separado para medicação e dosagem
     path = f"separate-prescription-data/{path}{prescription_data_type}{i}"
     with open(path, 'w') as f:
-        #correspondente aos dados pessoais
         f.write(str(data_to_write)) 
 
 
@@ -81,15 +80,15 @@ def create_separate_data(i,path,prescription_data_type,data_to_write):
 
 
 
-def create_data_prescription_random(n,doctor,patient_public_key,max_character_diagnosis):
+def create_data_prescription_random(n,doctor,patient_public_key,max_character_diagnosis=5000):
 
     for i in range(0,n):
         print(f"Prescription {i}")
         #patient Data
-        #name = max 25 character
+        #name = max 200 character
         #age = 18 up to 99
-        patient_name = string.ascii_lowercase
-        patient_name = ''.join(random.choice(patient_name) for i in range(25))
+        patient_name = string.ascii_uppercase
+        patient_name = ''.join(random.choice(patient_name) for i in range(200))
         patient_age = randrange(18,99)
         patient_personal_id = create_patient_data(patient_name,patient_age)
         patient_personal_id = patient_personal_id.encode()
@@ -100,38 +99,64 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
           
 
 
-
-
-
-
         #encrypt personal patient data
-        start_time = time.time() # start time execution
-        tracemalloc.start() # start memory usage
+        start_time_encryption_personal_ID = time.time() # start time execution
+        tracemalloc.start() # start memory allocation
         #encrypt patient personal identification
         capsule_patient_personal_id,cipher_patient_personal_id = doctor.encryption(patient_personal_id,patient_public_key)
         #default is bytes
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
+        end_time_encryption_personal_ID = time.time() - start_time_encryption_personal_ID
 
         #write PERSONAL ID MEMORY USAGE
         path = "report/memory-evaluation/PERSONAL_ID_encryption_memory_usage_in_kB.txt"
         write_memory_usage(path,peak)
 
         #write PERSONAL ID EXECUTION TIME
-        path = "report/execution-time-evaluation/PERSONAL_ID_encryption_execution_time_in_ms.txt"
-        write_execution_time(path,time.time() - start_time)
+        path = "report/execution-time-evaluation/PERSONAL_ID_execution_time_encryption_in_ms.txt"
+        write_execution_time(path,end_time_encryption_personal_ID)
 
 
         #create a SEPARATE FILE for PERSONAL ID ENCRYPTED
         create_separate_data(i,"personal_ID/encrypted/","ENCRYPTED_personal_id_of_prescription",cipher_patient_personal_id)     
 
 
+        #DELEGATION AND RE-ENCRYPTION
+        #cfrags = patient1.delegation_and_re_encryption(patient_secret_key,doctor_public_key,patient1_signer,capsule)
+
+        #clear_text = doctor.decrypt_by_delegatee(doctor_secret_key,patient1_public_key,capsule,cfrags,cyper)
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         #medication data
-        #medication name max 50 char
+        #medication name max 100 char
         #dosage min 1 up to 1000
-        medication_name = string.ascii_lowercase
-        medication_name = ''.join(random.choice(medication_name) for i in range(50))
+        medication_name = string.ascii_uppercase
+        medication_name = ''.join(random.choice(medication_name) for i in range(100))
         dosage = randrange(1,1000)
         medication_and_dosage = create_medication_data(medication_name,dosage)
         medication_and_dosage = medication_and_dosage.encode()
@@ -141,12 +166,13 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
 
         #encrypt medication data
-        start_time = time.time() # execution time
+        start_time_encryption_medication = time.time() # execution time
         tracemalloc.start() # memory usage
         capsule_medication_and_dosage,cipher_medication_and_dosage = doctor.encryption(medication_and_dosage,patient_public_key)
         #default is bytes
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
+        end_time_encryption_medication = time.time() - start_time_encryption_medication
 
         #write MEDICATION MEMORY USAGE
         path = "report/memory-evaluation/MEDICATION_memory_usage_encryption_in_kB.txt"
@@ -154,7 +180,7 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
         ##write MEDICATION EXECUTION TIME
         path = "report/execution-time-evaluation/MEDICATION_execution_time_encryption_in_ms.txt"
-        write_execution_time(path,time.time() - start_time)
+        write_execution_time(path,end_time_encryption_medication)
 
 
         #create a SEPARATE FILE for MEDICATION ENCRYPTED
@@ -163,7 +189,7 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
 
         # diagnosis data
-        diagnosis_data = string.ascii_lowercase
+        diagnosis_data = string.ascii_uppercase
         #min 100 char
         number_of_characters = dosage = randrange(100,max_character_diagnosis)
         diagnosis_data = ''.join(random.choice(diagnosis_data) for i in range(number_of_characters))
@@ -178,18 +204,22 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
 
         #cryptography diagnosis
-        start_time = time.time() # time execution
+        start_time_encryption_diagnosis = time.time() # time execution
         tracemalloc.start() # memory usage
         capsule_diagnosis,cipher_diagnosis = doctor.encryption(diagnosis,patient_public_key)
         #default is bytes
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
+        end_time_encryption_diagnosis= time.time() - start_time_encryption_diagnosis
+
+
         path = "report/memory-evaluation/DIAGNOSIS_encryption_memory_usage_in_kB.txt"
         write_memory_usage(path,peak)
 
+
         #time execution evaluation
         path = "report/execution-time-evaluation/DIAGNOSIS_execution_time_encryption_in_ms.txt"
-        write_execution_time(path,time.time() - start_time)
+        write_execution_time(path,end_time_encryption_diagnosis)
 
 
         #create a SEPARATE FILE for DIAGNOSIS ENCRYPTED
@@ -197,18 +227,20 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
 
 
+        #create the prescription with CLEAR TEXT
         prescription_with_clear_text = Prescription(patient_personal_id,medication_and_dosage,diagnosis)
+
         prescription = f"prescription-files/prescription{i}"
         with open(prescription, 'w') as f:
-            #correspondente aos dados pessoais
+            #corresponding to personal data
             f.write(str(prescription_with_clear_text.get_prescription()[0]))
             f.write(",")
             f.write("\n")
-            #correspondente ao medicamento
+            #corresponding to the medication 
             f.write(str(prescription_with_clear_text.get_prescription()[1]))
             f.write(",")
             f.write("\n")
-            #correspondente ao diagnóstico
+            #corresponding to the diagnosis 
             f.write(str(prescription_with_clear_text.get_prescription()[2]))
 
 
@@ -216,21 +248,21 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
 
 
-        #criar a prescrição com os dados criptografados 
+        #create the prescription with ENCRYPTED data
         prescription_with_data_encrypted = Prescription(cipher_patient_personal_id,cipher_medication_and_dosage,cipher_diagnosis)
 
-        #salva a prescrição com os dados criptografados dentro do diretorio
-        prescription = f"encrypted-prescription-files/enc_prescription{i}"
-        with open(prescription, 'w') as f:
-            #correspondente aos dados pessoais
+        #save the prescription with encrypted data in a file
+        enc_prescription = f"encrypted-prescription-files/enc_prescription{i}"
+        with open(enc_prescription, 'w') as f:
+            #corresponding to personal data
             f.write(str(prescription_with_data_encrypted.get_prescription()[0]))
             f.write(",")
             f.write("\n")
-            #correspondente ao medicamento
+            #corresponding to the medication 
             f.write(str(prescription_with_data_encrypted.get_prescription()[1]))
             f.write(",")
             f.write("\n")
-            #correspondente ao diagnóstico
+            #corresponding to the diagnosis 
             f.write(str(prescription_with_data_encrypted.get_prescription()[2]))
 
     """
@@ -259,19 +291,20 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
     """
 
     #create a file with the clear text prescriptions sizes 
-    create_file_with_prescription_size("prescription-files/","prescription-files/prescription","report/prescription_size_clear_text_in_bytes")
+    #source to count , file_name_to_count , destination to save
+    create_file_with_size("prescription-files/","prescription","report/CLEAR_TEXT_prescription_size_in_bytes")
     
     #create a file with the encrypted prescriptions sizes 
-    create_file_with_prescription_size("encrypted-prescription-files/","encrypted-prescription-files/enc_prescription","report/prescription_size_encrypted_in_bytes")
+    create_file_with_size("encrypted-prescription-files/","enc_prescription","report/ENCRYPTED_prescription_size_in_bytes")
     
     #create a file with the encrypted medications sizes 
-    create_file_with_prescription_size("separate-prescription-data/medication/","separate-prescription-data/medication/medication_of_prescription","separate-prescription-data/encrypted_medication_size_in_bytes")
+    create_file_with_size("separate-prescription-data/medication/encrypted/","ENCRYPTED_medication_of_prescription","separate-prescription-data/ENCRYPTED_medication_size_in_bytes")
    
     #create a file with the encrypted diagnosis sizes 
-    create_file_with_prescription_size("separate-prescription-data/diagnosis/","separate-prescription-data/diagnosis/diagnosis_of_prescription","separate-prescription-data/encrypted_diagnosis_size_in_bytes")
+    create_file_with_size("separate-prescription-data/diagnosis/encrypted/","ENCRYPTED_diagnosis_of_prescription","separate-prescription-data/ENCRYPTED_diagnosis_size_in_bytes")
    
     #create a file with the encrypted personal_ID sizes  
-    create_file_with_prescription_size("separate-prescription-data/personal_ID/","separate-prescription-data/personal_ID/patient_personal_id_of_precription","separate-prescription-data/encrypted_personal_ID_size_in_bytes")
+    create_file_with_size("separate-prescription-data/personal_ID/encrypted/","ENCRYPTED_personal_id_of_prescription","separate-prescription-data/ENCRYPTED_personal_ID_size_in_bytes")
 
     
 
@@ -289,12 +322,12 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
 
 while(True):
-    op = input("1 - Create Prescriptions\n2 - Clear Results\n3 - Show All \n> ")
+    op = input("\n1 - Create Prescriptions\n2 - Clear Results\n3 - Show All \n4 - Show Evaluation\n> ")
 
     if(op == "1"):
         try:
             number_of_prescriptions = int(input("Number of prescriptions: "))
-            create_data_prescription_random(number_of_prescriptions,doctor,patient1_public_key,5000)
+            create_data_prescription_random(number_of_prescriptions,doctor,patient1_public_key,15000)
             print("Success !!!\n")
         except Exception as e:
             print(e)
@@ -314,6 +347,70 @@ while(True):
         for p in range(0,file_numbers):
             print("\n")
             prescription = open_file(f"prescription-files/prescription{p}")
-            print(prescription)    
+            print(prescription)   
+
+    if(op == "4"):
+         
+         prescription_info = statistics("report/ENCRYPTED_prescription_size_in_bytes")   
+         print("\nEncrypted Prescription Info")
+         print(f"Min.: {prescription_info[0]*0.001} kb")
+         print(f"Max.: {prescription_info[1]*0.001} kb")   
+         print(f"Avg.: {prescription_info[2]*0.001} kb")  
+
+
+
+
+
+
+         print("#################### Encryption #############################")
+         print("")
+         print("\nMemory Allocation (kb):")
+
+
+         memory_evaluation_personal_ID = statistics("report/memory-evaluation/PERSONAL_ID_encryption_memory_usage_in_kB.txt") 
+         print("\nPersonal ID")
+         print(f"Min.: {memory_evaluation_personal_ID[0]} kb")
+         print(f"Max.: {memory_evaluation_personal_ID[1]} kb")   
+         print(f"Avg.: {memory_evaluation_personal_ID[2]} kb")  
+
+
+         memory_evaluation_medication = statistics("report/memory-evaluation/MEDICATION_memory_usage_encryption_in_kB.txt") 
+         print("\nMedication and Dosage")
+         print(f"Min.: {memory_evaluation_medication[0] } kb")
+         print(f"Max.: {memory_evaluation_medication[1] } kb")   
+         print(f"Avg.: {memory_evaluation_medication[2] } kb")     
+
+
+
+         memory_evaluation_diagnosis = statistics("report/memory-evaluation/DIAGNOSIS_encryption_memory_usage_in_kB.txt") 
+         print("\nDiagnosis")
+         print(f"Min.: {memory_evaluation_diagnosis[0] } kb")
+         print(f"Max.: {memory_evaluation_diagnosis[1] } kb")   
+         print(f"Avg.: { memory_evaluation_diagnosis[2] } kb")     
+
 
         
+         print("\nExecution Time (ms):")
+
+
+         execution_time_personal_ID = statistics("report/execution-time-evaluation/PERSONAL_ID_execution_time_encryption_in_ms.txt") 
+         print("\nPersonal ID")
+         print(f"Min.: {execution_time_personal_ID[0]} ms")
+         print(f"Max.: {execution_time_personal_ID[1]} ms")   
+         print(f"Avg.: {execution_time_personal_ID[2]} ms")  
+
+
+         execution_time_medication = statistics("report/execution-time-evaluation/MEDICATION_execution_time_encryption_in_ms.txt") 
+         print("\nMedication and Dosage")
+         print(f"Min.: {execution_time_medication[0] } ms")
+         print(f"Max.: {execution_time_medication[1] } ms")   
+         print(f"Avg.: {execution_time_medication[2] } ms")     
+
+
+
+         execution_time_diagnosis = statistics("report/execution-time-evaluation/DIAGNOSIS_execution_time_encryption_in_ms.txt") 
+         print("\nDiagnosis")
+         print(f"Min.: {execution_time_diagnosis[0] } ms")
+         print(f"Max.: {execution_time_diagnosis[1] } ms")   
+         print(f"Avg.: { execution_time_diagnosis[2] } ms")        
+         print("#################### End Encryption #############################")
