@@ -99,6 +99,9 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
           
 
 
+############################################################################################################################################
+        #ENCRYPTION PERSONAL ID
+
         #encrypt personal patient data
         start_time_encryption_personal_ID = time.time() # start time execution
         tracemalloc.start() # start memory allocation
@@ -114,39 +117,75 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
         write_memory_usage(path,peak)
 
         #write PERSONAL ID EXECUTION TIME
-        path = "report/execution-time-evaluation/PERSONAL_ID_execution_time_encryption_in_ms.txt"
+        path = "report/execution-time-evaluation/PERSONAL_ID_encryption_execution_time_in_ms.txt"
         write_execution_time(path,end_time_encryption_personal_ID)
 
 
         #create a SEPARATE FILE for PERSONAL ID ENCRYPTED
         create_separate_data(i,"personal_ID/encrypted/","ENCRYPTED_personal_id_of_prescription",cipher_patient_personal_id)     
+############################################################################################################################################
 
 
-        #DELEGATION AND RE-ENCRYPTION
-        #cfrags = patient1.delegation_and_re_encryption(patient_secret_key,doctor_public_key,patient1_signer,capsule)
+############################################################################################################################################
+        #DELEGATION AND RE-ENCRYPTION PERSONAL ID
 
-        #clear_text = doctor.decrypt_by_delegatee(doctor_secret_key,patient1_public_key,capsule,cfrags,cyper)
+        start_time_delegation_and_reencryption_personal_ID = time.time() # start time execution
+        tracemalloc.start() # start memory allocation
+
+
+        cfrags_personal_id = patient1.delegation_and_re_encryption(patient_secret_key,doctor_public_key,patient1_signer,capsule_patient_personal_id)
+
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        end_time_delegation_and_reencryption_personal_ID  = time.time() - start_time_delegation_and_reencryption_personal_ID
+
+        #write PERSONAL ID MEMORY USAGE in Delegation and Re-Encryption
+        path = "report/memory-evaluation/PERSONAL_ID_delegation_reencryption_memory_usage_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        #write PERSONAL ID EXECUTION TIME in Delegation and Re-Encryption
+        path = "report/execution-time-evaluation/PERSONAL_ID_delegation_reencryption_execution_time_in_ms.txt"
+        write_execution_time(path,end_time_delegation_and_reencryption_personal_ID)
+
+############################################################################################################################################
+
+
+
+
+############################################################################################################################################
+        #DECRYPTION PERSONAL ID
+
+        start_time_decryption_personal_ID = time.time() # start time execution
+        tracemalloc.start() # start memory allocation
+
+
+        clear_text = doctor.decrypt_by_delegatee(doctor_secret_key,patient1_public_key,capsule_patient_personal_id,cfrags_personal_id,cipher_patient_personal_id)
+        print("\n")
+
+        print(clear_text)
         
 
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        end_time_decryption_personal_ID  = time.time() - start_time_decryption_personal_ID
+
+        #write PERSONAL ID MEMORY USAGE in DECRYPTION
+        path = "report/memory-evaluation/PERSONAL_ID_decryption_memory_usage_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        #write PERSONAL ID EXECUTION TIME in DECRYPTION
+        path = "report/execution-time-evaluation/PERSONAL_ID_decryption_execution_time_in_ms.txt"
+        write_execution_time(path,end_time_decryption_personal_ID)
+
+############################################################################################################################################
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
 
@@ -164,8 +203,9 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
         #create a SEPARATE FILE for medication and dosage
         create_separate_data(i,"medication/","medication_of_prescription",medication_and_dosage)
 
+############################################################################################################################################
+        #ENCRYPTION MEDICATION DATA
 
-        #encrypt medication data
         start_time_encryption_medication = time.time() # execution time
         tracemalloc.start() # memory usage
         capsule_medication_and_dosage,cipher_medication_and_dosage = doctor.encryption(medication_and_dosage,patient_public_key)
@@ -175,16 +215,78 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
         end_time_encryption_medication = time.time() - start_time_encryption_medication
 
         #write MEDICATION MEMORY USAGE
-        path = "report/memory-evaluation/MEDICATION_memory_usage_encryption_in_kB.txt"
+        path = "report/memory-evaluation/MEDICATION_encryption_memory_usage_in_kB.txt"
         write_memory_usage(path,peak)
 
         ##write MEDICATION EXECUTION TIME
-        path = "report/execution-time-evaluation/MEDICATION_execution_time_encryption_in_ms.txt"
+        path = "report/execution-time-evaluation/MEDICATION_encryption_execution_time_in_ms.txt"
         write_execution_time(path,end_time_encryption_medication)
 
 
         #create a SEPARATE FILE for MEDICATION ENCRYPTED
         create_separate_data(i,"medication/encrypted/","ENCRYPTED_medication_of_prescription",cipher_medication_and_dosage)
+############################################################################################################################################
+
+
+############################################################################################################################################
+        #DELEGATION AND RE-ENCRYPTION MEDICATION DATA
+
+        start_time_delegation_and_reencryption_medication = time.time() # start time execution
+        tracemalloc.start() # start memory allocation
+
+
+        cfrags_medication = patient1.delegation_and_re_encryption(patient_secret_key,doctor_public_key,patient1_signer,capsule_medication_and_dosage)
+
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        end_time_delegation_and_reencryption_medication = time.time() - start_time_delegation_and_reencryption_medication
+
+        #write PERSONAL ID MEMORY USAGE in Delegation and Re-Encryption
+        path = "report/memory-evaluation/MEDICATION_delegation_reencryption_memory_usage_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        #write PERSONAL ID EXECUTION TIME in Delegation and Re-Encryption
+        path = "report/execution-time-evaluation/MEDICATION_delegation_reencryption_execution_time_in_ms.txt"
+        write_execution_time(path,end_time_delegation_and_reencryption_medication)
+
+############################################################################################################################################
+
+
+
+
+############################################################################################################################################
+        #DECRYPTION MEDICATION 
+
+        start_time_decryption_medication = time.time() # start time execution
+        tracemalloc.start() # start memory allocation
+
+
+        clear_text = doctor.decrypt_by_delegatee(doctor_secret_key,patient1_public_key,capsule_medication_and_dosage,cfrags_medication,cipher_medication_and_dosage)
+
+        print(clear_text)
+        
+
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        end_time_decryption_medication = time.time() - start_time_decryption_medication
+
+        #write PERSONAL ID MEMORY USAGE in DECRYPTION
+        path = "report/memory-evaluation/MEDICATION_decryption_memory_usage_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        #write PERSONAL ID EXECUTION TIME in DECRYPTION
+        path = "report/execution-time-evaluation/MEDICATION_decryption_execution_time_in_ms.txt"
+        write_execution_time(path,end_time_decryption_medication)
+
+############################################################################################################################################
+
+
+
+
+
+
 
 
 
@@ -202,8 +304,8 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
 
 
-
-        #cryptography diagnosis
+############################################################################################################################################
+        #ENCRYPTION DIAGNOSIS 
         start_time_encryption_diagnosis = time.time() # time execution
         tracemalloc.start() # memory usage
         capsule_diagnosis,cipher_diagnosis = doctor.encryption(diagnosis,patient_public_key)
@@ -218,12 +320,96 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
 
         #time execution evaluation
-        path = "report/execution-time-evaluation/DIAGNOSIS_execution_time_encryption_in_ms.txt"
+        path = "report/execution-time-evaluation/DIAGNOSIS_encryption_execution_time_in_ms.txt"
         write_execution_time(path,end_time_encryption_diagnosis)
 
 
         #create a SEPARATE FILE for DIAGNOSIS ENCRYPTED
         create_separate_data(i,"diagnosis/encrypted/","ENCRYPTED_diagnosis_of_prescription",cipher_diagnosis)
+
+
+
+
+
+
+
+
+############################################################################################################################################
+        #DELEGATION AND RE-ENCRYPTION DIAGNOSIS DATA
+
+        start_time_delegation_and_reencryption_diagnosis = time.time() # start time execution
+        tracemalloc.start() # start memory allocation
+
+
+        cfrags_diagnosis = patient1.delegation_and_re_encryption(patient_secret_key,doctor_public_key,patient1_signer,capsule_diagnosis)
+
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        end_time_delegation_and_reencryption_diagnosis = time.time() - start_time_delegation_and_reencryption_diagnosis
+
+        #write PERSONAL ID MEMORY USAGE in Delegation and Re-Encryption
+        path = "report/memory-evaluation/DIAGNOSIS_delegation_reencryption_memory_usage_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        #write PERSONAL ID EXECUTION TIME in Delegation and Re-Encryption
+        path = "report/execution-time-evaluation/DIAGNOSIS_delegation_reencryption_execution_time_in_ms.txt"
+        write_execution_time(path,end_time_delegation_and_reencryption_diagnosis)
+
+############################################################################################################################################
+
+
+
+
+############################################################################################################################################
+        #DECRYPTION MEDICATION 
+
+        start_time_decryption_diagnosis = time.time() # start time execution
+        tracemalloc.start() # start memory allocation
+
+
+        clear_text = doctor.decrypt_by_delegatee(doctor_secret_key,patient1_public_key,capsule_diagnosis,cfrags_diagnosis,cipher_diagnosis)
+
+        print(clear_text)
+        
+
+        #default is bytes
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        end_time_decryption_diagnosis = time.time() - start_time_decryption_diagnosis
+
+        #write PERSONAL ID MEMORY USAGE in DECRYPTION
+        path = "report/memory-evaluation/DIAGNOSIS_decryption_memory_usage_in_kB.txt"
+        write_memory_usage(path,peak)
+
+        #write PERSONAL ID EXECUTION TIME in DECRYPTION
+        path = "report/execution-time-evaluation/DIAGNOSIS_decryption_execution_time_in_ms.txt"
+        write_execution_time(path,end_time_decryption_diagnosis)
+
+############################################################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -292,10 +478,10 @@ def create_data_prescription_random(n,doctor,patient_public_key,max_character_di
 
     #create a file with the clear text prescriptions sizes 
     #source to count , file_name_to_count , destination to save
-    create_file_with_size("prescription-files/","prescription","report/CLEAR_TEXT_prescription_size_in_bytes")
+    create_file_with_size("prescription-files/","prescription","report/CLEAR_TEXT_prescription_size_in_kb",kb=True)
     
     #create a file with the encrypted prescriptions sizes 
-    create_file_with_size("encrypted-prescription-files/","enc_prescription","report/ENCRYPTED_prescription_size_in_bytes")
+    create_file_with_size("encrypted-prescription-files/","enc_prescription","report/ENCRYPTED_prescription_size_in_kb",kb=True)
     
     #create a file with the encrypted medications sizes 
     create_file_with_size("separate-prescription-data/medication/encrypted/","ENCRYPTED_medication_of_prescription","separate-prescription-data/ENCRYPTED_medication_size_in_bytes")

@@ -7,9 +7,13 @@ def open_file(file):
     prescription = f.read()
     return prescription
 
-def file_size(file):
+def file_size(file,kb):
     #size = os.path.getsize('f:/file.txt') 
     prescription_file_size = os.path.getsize(file)
+
+    if(kb):
+        prescription_file_size = prescription_file_size * 0.001
+
     return prescription_file_size
 
 def count_files_in_directory(directory):
@@ -26,8 +30,8 @@ def binary_to_str(binary):
     jsn = ''.join(chr(int(x, 2)) for x in binary.split())
     return jsn
     
-def create_file_with_size(path_to_count,directory,path_destination):
+def create_file_with_size(path_to_count,directory,path_destination,kb=True):
     count_prescription_files = count_files_in_directory(path_to_count)
     for p in range (0,count_prescription_files):
-            size = file_size(f"{path_to_count}{directory}{p}")
+            size = file_size(f"{path_to_count}{directory}{p}",kb)
             write_prescription_size(f"{path_destination}",size)
