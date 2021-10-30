@@ -253,13 +253,13 @@ def create_data_prescription_random(n,max_character_diagnosis=15000):
     create_file_with_size("encrypted-prescription-files/","enc_prescription","report/ENCRYPTED_prescription_size_in_kb",kb=True)
     
     #create a file with the encrypted medications sizes 
-    create_file_with_size("separate-prescription-data/medication/encrypted/","ENCRYPTED_medication_of_prescription","separate-prescription-data/ENCRYPTED_medication_size_in_bytes")
+    create_file_with_size("separate-prescription-data/medication/encrypted/","ENCRYPTED_medication_of_prescription","separate-prescription-data/ENCRYPTED_medication_size_in_kb",kb=True)
    
     #create a file with the encrypted diagnosis sizes 
-    create_file_with_size("separate-prescription-data/diagnosis/encrypted/","ENCRYPTED_diagnosis_of_prescription","separate-prescription-data/ENCRYPTED_diagnosis_size_in_bytes",kb=True)
+    create_file_with_size("separate-prescription-data/diagnosis/encrypted/","ENCRYPTED_diagnosis_of_prescription","separate-prescription-data/ENCRYPTED_diagnosis_size_in_kb",kb=True)
    
     #create a file with the encrypted personal_ID sizes  
-    create_file_with_size("separate-prescription-data/personal_ID/encrypted/","ENCRYPTED_personal_id_of_prescription","separate-prescription-data/ENCRYPTED_personal_ID_size_in_bytes",kb=True)
+    create_file_with_size("separate-prescription-data/personal_ID/encrypted/","ENCRYPTED_personal_id_of_prescription","separate-prescription-data/ENCRYPTED_personal_ID_size_in_kb",kb=True)
 
     
 
@@ -282,7 +282,7 @@ while(True):
     if(op == "1"):
         try:
             number_of_prescriptions = int(input("Number of prescriptions: "))
-            create_data_prescription_random(number_of_prescriptions,50000)
+            create_data_prescription_random(number_of_prescriptions,30000)
             print("Success !!!\n")
         except Exception as e:
             print(e)
