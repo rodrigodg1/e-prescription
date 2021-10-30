@@ -6,14 +6,14 @@ def write_prescription_size(path,prescription_file_size):
         f.write(str(prescription_file_size))
         f.write("\n")
 
-def write_memory_usage(path,peak):
+def write_memory_usage_in_kb(path,peak):
     peak = peak*0.001
     with open(path, 'a') as f:
         f.write(str(peak))
         f.write("\n")
 
 #receives time in s
-def write_execution_time(path,time):
+def write_execution_time_in_ms(path,time):
     #convert to ms
     time = time * 1000
     with open(path, 'a') as f:

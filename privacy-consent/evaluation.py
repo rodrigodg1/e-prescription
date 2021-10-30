@@ -22,8 +22,6 @@ import time
 
 
 def evaluation_encryption(doctor,data,patient_public_key,item,show=False):
-
-############################################################################################################################################
         #ENCRYPTION 
 
         item = item.upper()
@@ -31,7 +29,7 @@ def evaluation_encryption(doctor,data,patient_public_key,item,show=False):
         #encrypt 
         start_time_encryption = time.time() # start time execution
         tracemalloc.start() # start memory allocation
-        #encrypt patient personal identification
+        #encrypt data
         capsule,cipher= doctor.encryption(data,patient_public_key)
         #default is bytes
         current, peak = tracemalloc.get_traced_memory()
@@ -43,23 +41,19 @@ def evaluation_encryption(doctor,data,patient_public_key,item,show=False):
          print("\n")
          print(cipher)         
 
-        #write PERSONAL ID MEMORY USAGE
+        #write MEMORY ALLOCATION
         path = f"report/memory-evaluation/{item}_encryption_memory_usage_in_kB.txt"
-        write_memory_usage(path,peak)
+        write_memory_usage_in_kb(path,peak)
 
-        #write PERSONAL ID EXECUTION TIME
+        #write  EXECUTION TIME
         path = f"report/execution-time-evaluation/{item}_encryption_execution_time_in_ms.txt"
-        write_execution_time(path,end_time_encryption)
+        write_execution_time_in_ms(path,end_time_encryption)
         
         return capsule,cipher
-############################################################################################################################################
 
 
 def evaluation_delegation_reencryption(patient1,patient_secret_key,doctor_public_key,patient1_signer,capsule,item):
-############################################################################################################################################
-        #DELEGATION AND RE-ENCRYPTION 
         item = item.upper()
-
 
         start_time_delegation_and_reencryption= time.time() # start time execution
         tracemalloc.start() # start memory allocation
@@ -72,13 +66,13 @@ def evaluation_delegation_reencryption(patient1,patient_secret_key,doctor_public
         tracemalloc.stop()
         end_time_delegation_and_reencryption = time.time() - start_time_delegation_and_reencryption
 
-        #write PERSONAL ID MEMORY USAGE in Delegation and Re-Encryption
+        #write MEMORY ALLOCATION in Delegation and Re-Encryption
         path = f"report/memory-evaluation/{item}_delegation_reencryption_memory_usage_in_kB.txt"
-        write_memory_usage(path,peak)
+        write_memory_usage_in_kb(path,peak)
 
-        #write PERSONAL ID EXECUTION TIME in Delegation and Re-Encryption
+        #write EXECUTION TIME in Delegation and Re-Encryption
         path = f"report/execution-time-evaluation/{item}_delegation_reencryption_execution_time_in_ms.txt"
-        write_execution_time(path,end_time_delegation_and_reencryption)
+        write_execution_time_in_ms(path,end_time_delegation_and_reencryption)
 
         return cfrags
 
@@ -107,12 +101,12 @@ def evaluation_decryption(doctor,doctor_secret_key,patient1_public_key,capsule,c
         tracemalloc.stop()
         end_time_decryption = time.time() - start_time_decryption
 
-        #write PERSONAL ID MEMORY USAGE in DECRYPTION
+        #write MEMORY ALLOCATION in DECRYPTION
         path = f"report/memory-evaluation/{item}_decryption_memory_usage_in_kB.txt"
-        write_memory_usage(path,peak)
+        write_memory_usage_in_kb(path,peak)
 
-        #write PERSONAL ID EXECUTION TIME in DECRYPTION
+        #write EXECUTION TIME in DECRYPTION
         path = f"report/execution-time-evaluation/{item}_decryption_execution_time_in_ms.txt"
-        write_execution_time(path,end_time_decryption)
+        write_execution_time_in_ms(path,end_time_decryption)
 
 ############################################################################################################################################

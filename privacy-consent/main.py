@@ -11,6 +11,8 @@ from statistics import statistics
 from write_files import *
 from statistics import *
 from evaluation import *
+from colors import *
+
 
 import json
 import string
@@ -21,6 +23,7 @@ import subprocess
 
 import tracemalloc
 import time
+
 
 
 patient1 = Privacy()
@@ -48,6 +51,8 @@ def create_patient_data(name,age):
 
     return personal_id
 
+
+#receives the patient's medication and returns a dictionary as a string
 def create_medication_data(medication,dosage):
     
     medication_data = Medication(f"{medication}",f"{dosage}")
@@ -60,6 +65,8 @@ def create_medication_data(medication,dosage):
     medication_and_dosage = json.dumps(medication_and_dosage)
     return medication_and_dosage
 
+
+#receives the patient's diagnosis and returns a dictionary as a string
 def create_diagnosis_data(diagnosis):
     
     diagnosis_data = Diagnosis(f"{diagnosis}")
@@ -80,7 +87,7 @@ def create_separate_data(i,path,prescription_data_type,data_to_write):
 
 
 
-
+#create the prescription data and evaluation
 def create_data_prescription_random(n,max_character_diagnosis=15000):
 
     for i in range(0,n):
@@ -99,7 +106,7 @@ def create_data_prescription_random(n,max_character_diagnosis=15000):
         create_separate_data(i,"personal_ID/","patient_personal_id_of_precription",patient_personal_id)
           
 
-
+#EVALUATION
 ############################################################################################################################################
         #ENCRYPTION , DELEGATION, RE-ENCRYPTION AND DECRYPTION PERSONAL ID
 
@@ -299,30 +306,90 @@ while(True):
 
     if(op == "4"):
          
-         prescription_info = statistics("report/ENCRYPTED_prescription_size_in_bytes")   
+         prescription_info = statistics("report/ENCRYPTED_prescription_size_in_kb")   
          print("\nEncrypted Prescription Info")
-         print(f"Min.: {prescription_info[0]*0.001} kb")
-         print(f"Max.: {prescription_info[1]*0.001} kb")   
-         print(f"Avg.: {prescription_info[2]*0.001} kb")  
+         print(f"Avg.: {prescription_info[0]} kb")
+         print(f"Max.: {prescription_info[1]} kb")   
+         print(f"Min.: {prescription_info[2]} kb")  
 
 
 
 
 
+         print(f"{bcolors.WARNING}\n#################### Encryption #############################{bcolors.ENDC}")
 
-         print("#################### Encryption #############################")
-         print("")
          print("\nMemory Allocation (kb):")
 
 
          memory_evaluation_personal_ID = statistics("report/memory-evaluation/PERSONAL_ID_encryption_memory_usage_in_kB.txt") 
+         print("\nPersonal ID")
+         print(f"Avg.: {memory_evaluation_personal_ID[0]} kb")
+         print(f"Max.: {memory_evaluation_personal_ID[1]} kb")   
+         print(f"Min.: {memory_evaluation_personal_ID[2]} kb")  
+
+
+         memory_evaluation_medication = statistics("report/memory-evaluation/MEDICATION_encryption_memory_usage_in_kB.txt") 
+         print("\nMedication and Dosage")
+         print(f"Avg.: {memory_evaluation_medication[0] } kb")
+         print(f"Max.: {memory_evaluation_medication[1] } kb")   
+         print(f"Min.: {memory_evaluation_medication[2] } kb")     
+
+
+
+         memory_evaluation_diagnosis = statistics("report/memory-evaluation/DIAGNOSIS_encryption_memory_usage_in_kB.txt") 
+         print("\nDiagnosis")
+         print(f"Avg.: {memory_evaluation_diagnosis[0] } kb")
+         print(f"Max.: {memory_evaluation_diagnosis[1] } kb")   
+         print(f"Min.: { memory_evaluation_diagnosis[2] } kb")     
+
+
+        
+         print("\nExecution Time (ms):")
+
+
+         execution_time_personal_ID = statistics("report/execution-time-evaluation/PERSONAL_ID_encryption_execution_time_in_ms.txt") 
+         print("\nPersonal ID")
+         print(f"Avg.: {execution_time_personal_ID[0]} ms")
+         print(f"Max.: {execution_time_personal_ID[1]} ms")   
+         print(f"Min.: {execution_time_personal_ID[2]} ms")  
+
+
+         execution_time_medication = statistics("report/execution-time-evaluation/MEDICATION_encryption_execution_time_in_ms.txt") 
+         print("\nMedication and Dosage")
+         print(f"Avg.: {execution_time_medication[0] } ms")
+         print(f"Max.: {execution_time_medication[1] } ms")   
+         print(f"Min.: {execution_time_medication[2] } ms")     
+
+
+
+         execution_time_diagnosis = statistics("report/execution-time-evaluation/DIAGNOSIS_encryption_execution_time_in_ms.txt") 
+         print("\nDiagnosis")
+         print(f"Avg.: {execution_time_diagnosis[0] } ms")
+         print(f"Max.: {execution_time_diagnosis[1] } ms")   
+         print(f"Min.: { execution_time_diagnosis[2] } ms")  
+
+         print(f"{bcolors.WARNING}\n#################### END Encryption #############################{bcolors.ENDC}")
+
+
+
+
+
+
+
+
+
+
+         print(f"{bcolors.HEADER}\n#################### Delegation and Re-Encryption  #############################{bcolors.ENDC}")
+         print("\nMemory Allocation (kb):")
+
+         memory_evaluation_personal_ID = statistics("report/memory-evaluation/PERSONAL_ID_delegation_reencryption_memory_usage_in_kB.txt") 
          print("\nPersonal ID")
          print(f"Min.: {memory_evaluation_personal_ID[0]} kb")
          print(f"Max.: {memory_evaluation_personal_ID[1]} kb")   
          print(f"Avg.: {memory_evaluation_personal_ID[2]} kb")  
 
 
-         memory_evaluation_medication = statistics("report/memory-evaluation/MEDICATION_memory_usage_encryption_in_kB.txt") 
+         memory_evaluation_medication = statistics("report/memory-evaluation/MEDICATION_delegation_reencryption_memory_usage_in_kB.txt") 
          print("\nMedication and Dosage")
          print(f"Min.: {memory_evaluation_medication[0] } kb")
          print(f"Max.: {memory_evaluation_medication[1] } kb")   
@@ -330,7 +397,7 @@ while(True):
 
 
 
-         memory_evaluation_diagnosis = statistics("report/memory-evaluation/DIAGNOSIS_encryption_memory_usage_in_kB.txt") 
+         memory_evaluation_diagnosis = statistics("report/memory-evaluation/DIAGNOSIS_delegation_reencryption_memory_usage_in_kB.txt") 
          print("\nDiagnosis")
          print(f"Min.: {memory_evaluation_diagnosis[0] } kb")
          print(f"Max.: {memory_evaluation_diagnosis[1] } kb")   
@@ -341,14 +408,14 @@ while(True):
          print("\nExecution Time (ms):")
 
 
-         execution_time_personal_ID = statistics("report/execution-time-evaluation/PERSONAL_ID_execution_time_encryption_in_ms.txt") 
+         execution_time_personal_ID = statistics("report/execution-time-evaluation/PERSONAL_ID_delegation_reencryption_execution_time_in_ms.txt") 
          print("\nPersonal ID")
          print(f"Min.: {execution_time_personal_ID[0]} ms")
          print(f"Max.: {execution_time_personal_ID[1]} ms")   
          print(f"Avg.: {execution_time_personal_ID[2]} ms")  
 
 
-         execution_time_medication = statistics("report/execution-time-evaluation/MEDICATION_execution_time_encryption_in_ms.txt") 
+         execution_time_medication = statistics("report/execution-time-evaluation/MEDICATION_delegation_reencryption_execution_time_in_ms.txt") 
          print("\nMedication and Dosage")
          print(f"Min.: {execution_time_medication[0] } ms")
          print(f"Max.: {execution_time_medication[1] } ms")   
@@ -356,9 +423,92 @@ while(True):
 
 
 
-         execution_time_diagnosis = statistics("report/execution-time-evaluation/DIAGNOSIS_execution_time_encryption_in_ms.txt") 
+         execution_time_diagnosis = statistics("report/execution-time-evaluation/DIAGNOSIS_delegation_reencryption_execution_time_in_ms.txt") 
          print("\nDiagnosis")
          print(f"Min.: {execution_time_diagnosis[0] } ms")
          print(f"Max.: {execution_time_diagnosis[1] } ms")   
-         print(f"Avg.: { execution_time_diagnosis[2] } ms")        
-         print("#################### End Encryption #############################")
+         print(f"Avg.: { execution_time_diagnosis[2] } ms")  
+
+         print(f"{bcolors.HEADER}\n#################### END Delegation and Re-Encryption  #############################{bcolors.ENDC}")
+
+    
+
+
+
+
+
+
+
+
+
+
+
+         print(f"{bcolors.OKCYAN}\n#################### Decryption #############################{bcolors.ENDC}")
+         print("")
+         print("\nMemory Allocation (kb):")
+
+         memory_evaluation_personal_ID = statistics("report/memory-evaluation/PERSONAL_ID_decryption_memory_usage_in_kB.txt") 
+         print("\nPersonal ID")
+         print(f"Min.: {memory_evaluation_personal_ID[0]} kb")
+         print(f"Max.: {memory_evaluation_personal_ID[1]} kb")   
+         print(f"Avg.: {memory_evaluation_personal_ID[2]} kb")  
+
+
+         memory_evaluation_medication = statistics("report/memory-evaluation/MEDICATION_decryption_memory_usage_in_kB.txt") 
+         print("\nMedication and Dosage")
+         print(f"Min.: {memory_evaluation_medication[0] } kb")
+         print(f"Max.: {memory_evaluation_medication[1] } kb")   
+         print(f"Avg.: {memory_evaluation_medication[2] } kb")     
+
+
+
+         memory_evaluation_diagnosis = statistics("report/memory-evaluation/DIAGNOSIS_decryption_memory_usage_in_kB.txt") 
+         print("\nDiagnosis")
+         print(f"Min.: {memory_evaluation_diagnosis[0] } kb")
+         print(f"Max.: {memory_evaluation_diagnosis[1] } kb")   
+         print(f"Avg.: { memory_evaluation_diagnosis[2] } kb")     
+
+
+        
+         print("\nExecution Time (ms):")
+
+
+         execution_time_personal_ID = statistics("report/execution-time-evaluation/PERSONAL_ID_decryption_execution_time_in_ms.txt") 
+         print("\nPersonal ID")
+         print(f"Min.: {execution_time_personal_ID[0]} ms")
+         print(f"Max.: {execution_time_personal_ID[1]} ms")   
+         print(f"Avg.: {execution_time_personal_ID[2]} ms")  
+
+
+         execution_time_medication = statistics("report/execution-time-evaluation/MEDICATION_decryption_execution_time_in_ms.txt") 
+         print("\nMedication and Dosage")
+         print(f"Min.: {execution_time_medication[0] } ms")
+         print(f"Max.: {execution_time_medication[1] } ms")   
+         print(f"Avg.: {execution_time_medication[2] } ms")     
+
+
+
+         execution_time_diagnosis = statistics("report/execution-time-evaluation/DIAGNOSIS_decryption_execution_time_in_ms.txt") 
+         print("\nDiagnosis")
+         print(f"Min.: {execution_time_diagnosis[0] } ms")
+         print(f"Max.: {execution_time_diagnosis[1] } ms")   
+         print(f"Avg.: { execution_time_diagnosis[2] } ms")      
+
+         print(f"{bcolors.OKCYAN}\n#################### Decryption #############################{bcolors.ENDC}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
