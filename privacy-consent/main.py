@@ -193,7 +193,6 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
 
 
 
-
         #create the prescription with CLEAR TEXT 
         prescription_with_clear_text = Prescription(patient_personal_id,medication_and_dosage,diagnosis)
 
@@ -248,7 +247,7 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
 
     #create a file with the clear text prescriptions sizes 
     #source to count , file_name_to_count , destination to save
-    create_file_with_size("prescription-files/","prescription","report/CLEAR_TEXT_prescription_size_in_kb",kb=True)
+    create_file_with_size("prescription-files/","prescription","report/22CLEAR_TEXT_prescription_size_in_kb",kb=True)
     
     #create a file with the encrypted prescriptions sizes 
     create_file_with_size("encrypted-prescription-files/","enc_prescription","report/ENCRYPTED_prescription_size_in_kb",kb=True)
