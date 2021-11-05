@@ -100,7 +100,6 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
         patient_name = ''.join(random.choice(patient_name) for i in range(200))
         patient_age = randrange(18,99)
         patient_personal_id = create_patient_data(patient_name,patient_age)
-        patient_personal_id = patient_personal_id
 
 
         #create a file with only the patient's personal data
@@ -110,7 +109,7 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
         #read from file for evaluation
         personal_id_from_sep_file = read_file_for_evaluation("separate-prescription-data/personal_ID/patient_personal_id_of_precription",i,encode_=True)
 
-       # break
+
 #EVALUATION
 ############################################################################################################################################
         #ENCRYPTION , DELEGATION, RE-ENCRYPTION AND DECRYPTION PERSONAL ID
@@ -145,7 +144,7 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
         medication_from_sep_file = read_file_for_evaluation("separate-prescription-data/medication/medication_of_prescription",i,encode_=True)
 
 
-
+#EVALUATION
 ############################################################################################################################################
         #ENCRYPTION , DELEGATION, RE-ENCRYPTION AND DECRYPTION MEDICATION DATA
 
@@ -178,9 +177,7 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
         diagnosis_from_sep_file = read_file_for_evaluation("separate-prescription-data/diagnosis/diagnosis_of_prescription",i,encode_=True)
 
 
-
-
-
+#EVALUATION
 ############################################################################################################################################
         #ENCRYPTION , DELEGATION, RE-ENCRYPTION AND DECRYPTION DIAGNOSIS DATA
 
@@ -200,6 +197,7 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
         #create the prescription with CLEAR TEXT 
         prescription_with_clear_text = Prescription(patient_personal_id,medication_and_dosage,diagnosis)
 
+        #create the prescription file with CLEAR TEXT 
         prescription = f"prescription-files/prescription{i}"
         with open(prescription, 'w') as f:
             #corresponding to personal data
@@ -214,17 +212,8 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
             f.write(str(prescription_with_clear_text.get_prescription()[2]))
 
 
-
-        #prescription_to_evaluate = f" {prescription_with_clear_text.get_personal_id()}, {prescription_with_clear_text.get_medication()}, {prescription_with_clear_text.get_diagnosis()}"
-        #prescription_to_evaluate = prescription_to_evaluate.encode()
-        #print(prescription_to_evaluate)
-
-
-        #read from file for evaluation
-        with open(f'prescription-files/prescription{i}') as f:
-            prescription_to_evaluate = f.readlines()
-
-        prescription_to_evaluate = str(prescription_to_evaluate).encode()
+        #read prescription file for evaluation
+        prescription_to_evaluate = read_file_for_evaluation("prescription-files/prescription",i,encode_=True)
 
 
        #evaluate the full prescription
@@ -235,43 +224,11 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
         evaluation_decryption(doctor,doctor_secret_key,patient1_public_key,capsule_prescription,cfrags_prescription,cipher_prescription,"FULL_PRESCRIPTION",show=False)
 
 
-     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
         #create the prescription with ENCRYPTED data
         prescription_with_data_encrypted = Prescription(cipher_patient_personal_id,cipher_medication,cipher_diagnosis)
-
-
-
-
-
-
-
 
         #save the prescription with encrypted data in a file
         enc_prescription = f"encrypted-prescription-files/enc_prescription{i}"
@@ -287,30 +244,7 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
             #corresponding to the diagnosis 
             f.write(str(prescription_with_data_encrypted.get_prescription()[2]))
 
-    """
-        #salva a prescrição com os dados criptografados em forma binaria dentro do diretorio
-        #string para binario
-        prescription = f"binary_enc_prescription/bin_enc_prescription{i}"
-        file_numbers = count_files_in_directory("encrypted-prescription-files/")
 
-        with open(prescription, 'w') as f:
-            for p in range(0,file_numbers):
-                prescription_file = open_file(f"encrypted-prescription-files/enc_prescription{p}")
-                binary = str_to_binary(prescription_file)
-                f.write(binary)
-                
-        #desfaz binario para string
-        prescription = f"binary_enc_to_cipher_prescription/bin_enc_prescription_after_binary{i}"
-        file_numbers = count_files_in_directory("binary_enc_prescription/")
-
-        with open(prescription, 'w') as f:
-            for p in range(0,file_numbers):
-                prescription_file = open_file(f"binary_enc_prescription/bin_enc_prescription{p}")
-                chiper = binary_to_str(prescription_file)
-                f.write(chiper)
-    
-
-    """
 
     #create a file with the clear text prescriptions sizes 
     #source to count , file_name_to_count , destination to save
@@ -328,16 +262,6 @@ def create_data_prescription_random(n,max_character_diagnosis=50000):
     #create a file with the encrypted personal_ID sizes  
     create_file_with_size("separate-prescription-data/personal_ID/encrypted/","ENCRYPTED_personal_id_of_prescription","separate-prescription-data/ENCRYPTED_personal_ID_size_in_kb",kb=True)
 
-    
-
-
-
-    #create a file with the prescriptions sizes for binary encrypted size
-    #create_file_with_prescription_size("binary_enc_prescription/bin_enc_prescription","report/prescription_size_encrypted_binary_in_bytes")
-
-    #1 -> plain text
-    #2 -> encrypted_form
-    #3 -> binary send to network
 
 
 
