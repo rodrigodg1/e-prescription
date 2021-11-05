@@ -20,3 +20,4 @@ class Prescription:
     #return all prescription items
     def get_prescription(self):
         return self.personal_id, self.medication, self.diagnosis
+
