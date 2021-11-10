@@ -1,7 +1,7 @@
 
 
 
-def statistics(path):
+def filestatistics(path):
     data = []
     with open(path) as f:
         for line in f:

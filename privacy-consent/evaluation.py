@@ -5,7 +5,7 @@ from medication import *
 from diagnosis import*
 from file_operations import *
 from format_transaction_time import *
-from statistics import statistics
+from filestatistics import *
 from write_files import *
 from statistics import *
 
