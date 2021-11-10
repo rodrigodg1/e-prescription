@@ -48,15 +48,15 @@ class Privacy:
         kfrags = generate_kfrags(delegating_sk=delegator_secret_key,
                          receiving_pk=delegatee_public_key,
                          signer=delegator_signer,
-                         threshold=2,
-                         shares=5)
+                         threshold=1,
+                         shares=2)
 
         return kfrags
 
     def re_encryption(self,kfrags,capsule):
         # Several Ursulas perform re-encryption, and Bob collects the resulting `cfrags`.
         cfrags = list()           # Bob's cfrag collection
-        for kfrag in kfrags[:2]:
+        for kfrag in kfrags[:1]:
             cfrag = reencrypt(capsule=capsule, kfrag=kfrag)
             cfrags.append(cfrag)    # Bob collects a cfrag
 

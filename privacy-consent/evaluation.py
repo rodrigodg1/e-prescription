@@ -52,6 +52,8 @@ def evaluation_encryption(doctor,data,patient_public_key,item,show=False):
         #default is bytes
         end_time_encryption = time.time() - start_time_encryption
         current, peak = tracemalloc.get_traced_memory()
+
+        print(f"final time encryption: {end_time_encryption * 1000}")
         tracemalloc.stop()
 
 
@@ -60,8 +62,8 @@ def evaluation_encryption(doctor,data,patient_public_key,item,show=False):
          print(cipher)         
 
         #write MEMORY ALLOCATION
-        path = f"report/memory-evaluation/{item}_encryption_memory_usage_in_kB.txt"
-        write_memory_usage_in_kb(path,peak)
+        path = f"report/memory-evaluation/{item}_encryption_memory_usage_in_kb.txt"
+        write_memory_usage(path,peak,kb=True)
 
         #write  EXECUTION TIME
         path = f"report/execution-time-evaluation/{item}_encryption_execution_time_in_ms.txt"
@@ -83,13 +85,16 @@ def evaluation_delegation(patient1,patient1_secret_key,delegatee_public_key,pati
 
         end_time_delegation = time.time() - start_time_delegation
 
+        print(f"final time delegation: {end_time_delegation * 1000}")
+
+
         #default is bytes
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
         #write MEMORY ALLOCATION in Delegation and Re-Encryption
-        path = f"report/memory-evaluation/{item}_delegation_memory_usage_in_kB.txt"
-        write_memory_usage_in_kb(path,peak)
+        path = f"report/memory-evaluation/{item}_delegation_memory_usage_in_kb.txt"
+        write_memory_usage(path,peak,kb=True)
 
         #write EXECUTION TIME in Delegation and Re-Encryption
         path = f"report/execution-time-evaluation/{item}_delegation_execution_time_in_ms.txt"
@@ -115,15 +120,17 @@ def evaluation_reencryption(patient1,capsule,kfrags,item):
 
         end_time_reencryption = time.time() - start_time_reencryption
 
+        print(f"final time re-encryption: {end_time_reencryption * 1000}")
 
+        
         #default is bytes
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
 
 
         #write MEMORY ALLOCATION in Re-Encryption
-        path = f"report/memory-evaluation/{item}_reencryption_memory_usage_in_kB.txt"
-        write_memory_usage_in_kb(path,peak)
+        path = f"report/memory-evaluation/{item}_reencryption_memory_usage_in_kb.txt"
+        write_memory_usage(path,peak,kb=True)
 
         #write EXECUTION TIME in Delegation and Re-Encryption
         path = f"report/execution-time-evaluation/{item}_reencryption_execution_time_in_ms.txt"
@@ -149,7 +156,8 @@ def evaluation_decryption(doctor,doctor_secret_key,patient1_public_key,capsule,c
 
         end_time_decryption = time.time() - start_time_decryption
 
-      
+        print(f"final time decryption: {end_time_decryption * 1000}")
+
         if(show):
          print("\n")
          print(clear_text)
@@ -160,8 +168,8 @@ def evaluation_decryption(doctor,doctor_secret_key,patient1_public_key,capsule,c
         tracemalloc.stop()
 
         #write MEMORY ALLOCATION in DECRYPTION
-        path = f"report/memory-evaluation/{item}_decryption_memory_usage_in_kB.txt"
-        write_memory_usage_in_kb(path,peak)
+        path = f"report/memory-evaluation/{item}_decryption_memory_usage_in_kb.txt"
+        write_memory_usage(path,peak,kb=True)
 
         #write EXECUTION TIME in DECRYPTION
         path = f"report/execution-time-evaluation/{item}_decryption_execution_time_in_ms.txt"

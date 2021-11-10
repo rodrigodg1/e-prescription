@@ -14,6 +14,7 @@ def file_size(file,kb):
     if(kb):
         prescription_file_size = prescription_file_size * 0.001
 
+
     return prescription_file_size
 
 def count_files_in_directory(directory):
