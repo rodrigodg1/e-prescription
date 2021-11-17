@@ -1,5 +1,5 @@
 
-
+import statistics
 
 def filestatistics(path):
     data = []
@@ -12,5 +12,6 @@ def filestatistics(path):
     max_ = max(data)
     min_= min(data)
     average_ = sum(data)/len(data)
+    std_ = statistics.stdev(data)
     
-    return average_,max_,min_
+    return average_,max_,min_,std_

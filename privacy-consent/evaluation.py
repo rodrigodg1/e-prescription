@@ -53,7 +53,7 @@ def evaluation_encryption(doctor,data,patient_public_key,item,show=False):
         end_time_encryption = time.time() - start_time_encryption
         current, peak = tracemalloc.get_traced_memory()
 
-        print(f"final time encryption: {end_time_encryption * 1000}")
+        #print(f"final time encryption: {end_time_encryption * 1000}")
         tracemalloc.stop()
 
 
@@ -85,7 +85,7 @@ def evaluation_delegation(patient1,patient1_secret_key,delegatee_public_key,pati
 
         end_time_delegation = time.time() - start_time_delegation
 
-        print(f"final time delegation: {end_time_delegation * 1000}")
+        #print(f"final time delegation: {end_time_delegation * 1000}")
 
 
         #default is bytes
@@ -120,7 +120,7 @@ def evaluation_reencryption(patient1,capsule,kfrags,item):
 
         end_time_reencryption = time.time() - start_time_reencryption
 
-        print(f"final time re-encryption: {end_time_reencryption * 1000}")
+        #print(f"final time re-encryption: {end_time_reencryption * 1000}")
 
         
         #default is bytes
@@ -156,7 +156,7 @@ def evaluation_decryption(doctor,doctor_secret_key,patient1_public_key,capsule,c
 
         end_time_decryption = time.time() - start_time_decryption
 
-        print(f"final time decryption: {end_time_decryption * 1000}")
+        #print(f"final time decryption: {end_time_decryption * 1000}")
 
         if(show):
          print("\n")

@@ -122,7 +122,7 @@ def create_data_prescription_random(n,max_character_diagnosis=900000):
         diagnosis_data = string.ascii_uppercase
         #min  char
         #min = max_character_diagnosis / 150
-        min = 500
+        min = 200
         number_of_characters = randrange(min,max_character_diagnosis)
         diagnosis_data = ''.join(random.choice(diagnosis_data) for i in range(number_of_characters))
         diagnosis = create_diagnosis_data(diagnosis_data)
@@ -249,7 +249,7 @@ while(True):
             #number_of_diagnosis_char = int(input("Diagnosis size (default = 900000): "))
 
             number_of_prescriptions = int(input("Number of prescriptions: "))
-            number_of_diagnosis_char = 9000000
+            number_of_diagnosis_char = 11000000
             create_data_prescription_random(number_of_prescriptions,number_of_diagnosis_char)
             print(f"{bcolors.OKGREEN}\nSuccess !!!{bcolors.ENDC}")
         except Exception as e:
