@@ -17,7 +17,7 @@ def create_patient_data(name,age):
 def create_medication_data(medication,dosage):
     medication_data = Medication(f"{medication}",f"{dosage}")
 
-    medication_and_dosage = f"Name: {medication_data.get_medication()}, \nDosage: {medication_data.get_dosage()}"
+    medication_and_dosage = f"Medication: {medication_data.get_medication()}, \nDosage: {medication_data.get_dosage()}"
 
     return medication_and_dosage
 

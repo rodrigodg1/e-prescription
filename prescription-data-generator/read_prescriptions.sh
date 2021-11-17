@@ -8,11 +8,21 @@ pwd
 
 for i in {0..4}
 do
-    filename="/Users/rodrigo/Desktop/e-prescription/prescription-data-generator/separate-prescription-data/diagnosis/diagnosis_of_prescription$i"
-    value=$(<$filename)
+    #change these paths
+    personal_info_filename="/Users/rodrigo/Desktop/e-prescription/prescription-data-generator/separate-prescription-data/personal_ID/patient_personal_id_of_precription$i"
+    personal_info=$(<$personal_info_filename)
+
+    medication_filename="/Users/rodrigo/Desktop/e-prescription/prescription-data-generator/separate-prescription-data/medication/medication_of_prescription$i"
+    medication=$(<$medication_filename)
+
+    diagnosis_filename="/Users/rodrigo/Desktop/e-prescription/prescription-data-generator/separate-prescription-data/diagnosis/diagnosis_of_prescription$i"
+    diagnosis=$(<$diagnosis_filename)
 
     echo "Prescription $i"
-    echo "$value"
+    echo "$personal_info"
+    echo "$medication"
+    echo "$diagnosis"
+
 
     #export APPROVE='{"approve":{"quantity":[{"amount":"1"."denom":"umayo".'$value' }]}}'
 

@@ -19,7 +19,10 @@ pub fn instantiate(
     msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
     let state = State {
-        data: msg.data,
+        personal_info: msg.personal_info,
+        medication : msg.medication,
+        diagnosis : msg.diagnosis,
+        count:msg.count,
         owner: info.sender.clone(),
     };
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
@@ -36,17 +39,20 @@ pub fn execute(
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     match msg {
-        ExecuteMsg::Prescription {data} => try_increment(deps,info,data),
+        ExecuteMsg::Prescription {personal_info,medication,diagnosis} => try_increment(deps,info,personal_info,medication,diagnosis),
         //ExecuteMsg::Reset { count } => try_reset(deps, info, count),
     }
 }
 
-pub fn try_increment(deps: DepsMut,info: MessageInfo,data:String) -> Result<Response, ContractError> {
+pub fn try_increment(deps: DepsMut,info: MessageInfo,personal_info:String,medication:String,diagnosis:String) -> Result<Response, ContractError> {
     STATE.update(deps.storage, |mut state| -> Result<_, ContractError> {
         if info.sender != state.owner {
             return Err(ContractError::Unauthorized {});
         }
-        state.data = data;
+        state.personal_info = personal_info;
+        state.medication = medication;
+        state.diagnosis = diagnosis;
+        state.count += 1;
         Ok(state)
     })?;
 
@@ -74,7 +80,7 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
 
 fn query_count(deps: Deps) -> StdResult<CountResponse> {
     let state = STATE.load(deps.storage)?;
-    Ok(CountResponse { data: state.data })
+    Ok(CountResponse { personal_info: state.personal_info, medication:state.medication, diagnosis:state.diagnosis,count:state.count })
 }
 
 #[cfg(test)]
