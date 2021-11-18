@@ -125,8 +125,8 @@ while(True):
             #number_of_diagnosis_char = int(input("Diagnosis size (default = 900000): "))
 
             number_of_prescriptions = int(input("Number of prescriptions: "))
-            #number_of_diagnosis_char = 11000000
-            number_of_diagnosis_char = 443
+            number_of_diagnosis_char = 100000
+            #number_of_diagnosis_char = 443
             create_data_prescription_random(number_of_prescriptions,number_of_diagnosis_char)
             print(f"{bcolors.OKGREEN}\nSuccess !!!{bcolors.ENDC}")
         except Exception as e:

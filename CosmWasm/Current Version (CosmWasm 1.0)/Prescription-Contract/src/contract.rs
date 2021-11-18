@@ -39,7 +39,7 @@ pub fn execute(
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     match msg {
-        ExecuteMsg::Prescription {personal_info,medication,diagnosis} => try_increment(deps,info,personal_info,medication,diagnosis),
+        ExecuteMsg::Prescription{personal_info,medication,diagnosis} => try_increment(deps,info,personal_info,medication,diagnosis),
         //ExecuteMsg::Reset { count } => try_reset(deps, info, count),
     }
 }
@@ -80,7 +80,7 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
 
 fn query_count(deps: Deps) -> StdResult<CountResponse> {
     let state = STATE.load(deps.storage)?;
-    Ok(CountResponse { personal_info: state.personal_info, medication:state.medication, diagnosis:state.diagnosis,count:state.count })
+    Ok(CountResponse { personal_info: state.personal_info, medication:state.medication, diagnosis:state.diagnosis,count:state.count})
 }
 
 #[cfg(test)]

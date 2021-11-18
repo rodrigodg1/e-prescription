@@ -8,7 +8,7 @@ from diagnosis import *
 def create_patient_data(name,age):
     patient_data = Patient(f"{name}",f"{age}")
 
-    personal_id = f"Name: {patient_data.get_name()},\nAge:{patient_data.get_age()}"
+    personal_id = f'"{patient_data.get_name()},{patient_data.get_age()}"'
     
     return personal_id
 
@@ -17,7 +17,7 @@ def create_patient_data(name,age):
 def create_medication_data(medication,dosage):
     medication_data = Medication(f"{medication}",f"{dosage}")
 
-    medication_and_dosage = f"Medication: {medication_data.get_medication()}, \nDosage: {medication_data.get_dosage()}"
+    medication_and_dosage = f'"{medication_data.get_medication()},{medication_data.get_dosage()}"'
 
     return medication_and_dosage
 
@@ -26,7 +26,7 @@ def create_medication_data(medication,dosage):
 def create_diagnosis_data(diagnosis):
     diagnosis_data = Diagnosis(f"{diagnosis}")
 
-    diagnosis_data_ = f"Diagnosis: {diagnosis_data.get_diagnosis()}"
+    diagnosis_data_ = f'"{diagnosis_data.get_diagnosis()}"'
 
     return diagnosis_data_
 
