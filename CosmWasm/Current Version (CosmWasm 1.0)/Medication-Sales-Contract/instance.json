@@ -1,0 +1,8 @@
+{
+    "pharmacy":"addr",
+    "patient":"addr",
+    "medication":"medicationx",
+    "dosage":"dosagex",
+    "price":23.43,
+    "count":1
+ }
