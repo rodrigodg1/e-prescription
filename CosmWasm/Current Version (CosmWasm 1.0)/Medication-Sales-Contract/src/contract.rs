@@ -52,7 +52,7 @@ pub fn try_sell(
     info: MessageInfo,
     medication: String,
     dosage:String,
-    price:f32,
+    price:i32,
 
     ) -> Result<Response, ContractError> {
     STATE.update(deps.storage, |mut state| -> Result<_, ContractError> {

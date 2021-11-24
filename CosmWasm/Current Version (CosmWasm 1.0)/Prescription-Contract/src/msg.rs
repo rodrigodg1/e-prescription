@@ -1,8 +1,12 @@
+
+use cosmwasm_std::{Addr};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
+    pub doctor: String, //doctor address
+    pub patient : String, // patient address
     pub personal_info: String,
     pub medication:String,
     pub diagnosis:String,
@@ -12,7 +16,7 @@ pub struct InstantiateMsg {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ExecuteMsg {
-    Prescription {personal_info:String,medication:String,diagnosis:String}
+    CreatePrescription {personal_info:String,medication:String,diagnosis:String}
     //Reset { count: i32 },
 }
 
@@ -26,6 +30,9 @@ pub enum QueryMsg {
 // We define a custom struct for each query response
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct CountResponse {
+    pub doctor: Addr,
+    pub patient: Addr,
+    pub owner: Addr,
     pub personal_info: String,
     pub medication:String,
     pub diagnosis:String,

@@ -8,14 +8,14 @@ pub struct InstantiateMsg {
     pub patient : String, // patient address
     pub medication : String,// medication name
     pub dosage : String, //ml or g 
-    pub price : f32,
+    pub price : i32,
     pub count: i32,  // count medication sold to patient
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum ExecuteMsg {
-    Sell {medication:String,dosage:String,price:f32,},
+    Sell {medication:String,dosage:String,price:i32,},
     //Reset { count: i32 },
 }
 
@@ -33,7 +33,7 @@ pub enum QueryMsg {
 pub struct SalesResponse {
     pub medication:String,
     pub dosage: String,
-    pub price: f32,
+    pub price: i32,
     pub count: i32,
     pub pharmacy: Addr,
     pub patient: Addr,

@@ -11,7 +11,7 @@ pub struct State {
     pub source: Addr,
     pub medication : String,// medication name
     pub dosage : String, //ml or g 
-    pub price : f32,
+    pub price : i32,
     pub count: i32,  // count medication sold to patient
     
 }

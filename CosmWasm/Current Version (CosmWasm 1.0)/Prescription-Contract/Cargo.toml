@@ -1,5 +1,5 @@
 [package]
-name = "my-first-contract"
+name = "prescription-contract"
 version = "0.1.0"
 authors = ["vm"]
 edition = "2018"
