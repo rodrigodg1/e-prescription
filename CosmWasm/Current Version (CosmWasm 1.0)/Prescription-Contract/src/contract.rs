@@ -21,11 +21,12 @@ pub fn instantiate(
     let state = State {
         doctor: deps.api.addr_validate(&msg.doctor)?,
         patient: deps.api.addr_validate(&msg.patient)?,
-        owner: info.sender,
+        //owner: info.sender,
         personal_info: msg.personal_info,
         medication : msg.medication,
         diagnosis : msg.diagnosis,
         count:msg.count,
+        last_access: info.sender,
     };
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     STATE.save(deps.storage, &state)?;
@@ -42,36 +43,40 @@ pub fn execute(
 ) -> Result<Response, ContractError> {
     match msg {
         ExecuteMsg::CreatePrescription{personal_info,medication,diagnosis} => try_create(deps,info,personal_info,medication,diagnosis),
-        //ExecuteMsg::Reset { count } => try_reset(deps, info, count),
+        //for tracking
+        ExecuteMsg::Tracking {} => try_tracking(deps, info),
     }
 }
 
 pub fn try_create(deps: DepsMut,info: MessageInfo,personal_info:String,medication:String,diagnosis:String) -> Result<Response, ContractError> {
     STATE.update(deps.storage, |mut state| -> Result<_, ContractError> {
-        if info.sender != state.owner {
+        if info.sender != state.doctor {
             return Err(ContractError::Unauthorized {});
         }
         state.personal_info = personal_info;
         state.medication = medication;
         state.diagnosis = diagnosis;
         state.count += 1;
+        //tracking
+        state.last_access = info.sender;
         Ok(state)
     })?;
 
     Ok(Response::new().add_attribute("method", "try_create"))
 }
-/*
-pub fn try_reset(deps: DepsMut, info: MessageInfo, count: i32) -> Result<Response, ContractError> {
+
+
+
+pub fn try_tracking(deps: DepsMut,info: MessageInfo) -> Result<Response, ContractError> {
     STATE.update(deps.storage, |mut state| -> Result<_, ContractError> {
-        if info.sender != state.owner {
-            return Err(ContractError::Unauthorized {});
-        }
-        state.count = count;
+        //tracking = update contract state with only address
+        state.last_access = info.sender;
         Ok(state)
     })?;
-    Ok(Response::new().add_attribute("method", "reset"))
+
+    Ok(Response::new().add_attribute("method", "try_tracking"))
 }
-*/
+
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
@@ -80,8 +85,13 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     }
 }
 
+
+
+
 fn query_count(deps: Deps) -> StdResult<CountResponse> {
+
     let state = STATE.load(deps.storage)?;
-    Ok(CountResponse { doctor:state.doctor, owner: state.owner, patient: state.patient,personal_info: state.personal_info, medication:state.medication, diagnosis:state.diagnosis,count:state.count})
+    Ok(CountResponse { doctor:state.doctor, patient: state.patient,personal_info: state.personal_info, medication:state.medication, diagnosis:state.diagnosis,count:state.count,last_access:state.last_access})
 }
+
 
