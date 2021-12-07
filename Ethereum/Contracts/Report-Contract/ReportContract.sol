@@ -15,7 +15,7 @@ contract Report{
     }
 
     //only the instance owner can create report transactions
-    function setReport(string memory _data) public {
+    function create_report(string memory _data) public {
         if (msg.sender == originAddr){
             data = _data;
             count = count + 1;
