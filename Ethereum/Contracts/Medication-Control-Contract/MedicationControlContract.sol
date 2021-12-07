@@ -18,7 +18,7 @@ contract MedicationControl{
     }
 
     //only the instance owner can create supply transactions
-    function setSupply(uint256  _amount) public {
+    function supply_medications(uint256  _amount) public {
         if (msg.sender == regulatorAddr){
             amount_medication_supplied = amount_medication_supplied + _amount;
             amount_available_medication = amount_available_medication + _amount;
@@ -30,7 +30,7 @@ contract MedicationControl{
     
     }
     //only pharmacy can create sales transactions
-    function setSell(uint256  _amount_sold) public {
+    function update_medications_sold(uint256  _amount_sold) public {
         if (msg.sender == pharmacyAddr){
 
             if(amount_available_medication > 0 && amount_available_medication >= _amount_sold){
