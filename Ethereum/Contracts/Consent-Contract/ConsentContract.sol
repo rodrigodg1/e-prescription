@@ -1,7 +1,7 @@
 pragma solidity ^0.5.11;
 
 
-contract Prescription{
+contract Consent{
     string request_origin_name; // requester name
     address request_origin_addr; // requester origin address
     address patient_addr; // patient address
@@ -20,7 +20,7 @@ contract Prescription{
     }
 
     //only requester can create request transactions
-    function setRequest(string memory _requester_name) public {
+    function create_consent(string memory _requester_name) public {
         if (msg.sender == request_origin_addr){
             string memory _consent = "NOT AUTHORIZED YET";
             string memory _description = "Access to prescription data not yet authorized by the patient. Wait for authorization";
@@ -37,7 +37,7 @@ contract Prescription{
         }
     
     }
-    function setConsent(string memory _delegation_key) public {
+    function update_consent(string memory _delegation_key) public {
         if (msg.sender == patient_addr){
             string memory _consent = "AUTHORIZED";
             string memory _description = "Access to prescription data was authorized by the patient";
@@ -62,19 +62,6 @@ contract Prescription{
     function get_consent_info() public view returns (string memory,address,address, string memory ,string memory ,uint256,address,string memory ){
         return (request_origin_name,request_origin_addr,patient_addr,patient_consent,description,count_requests,last_update_addr,delegation_key);
     }
-
-
-
-
-
-
- 
-
-
-
-
-
-
 
 
 
