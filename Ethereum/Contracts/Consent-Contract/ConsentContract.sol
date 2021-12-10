@@ -20,7 +20,7 @@ contract Consent{
     }
 
     //only requester can create request transactions
-    function create_consent(string memory _requester_name) public {
+    function request_delegation(string memory _requester_name) public {
         if (msg.sender == request_origin_addr){
             string memory _consent = "NOT AUTHORIZED YET";
             string memory _description = "Access to prescription data not yet authorized by the patient. Wait for authorization";
@@ -37,7 +37,7 @@ contract Consent{
         }
     
     }
-    function update_consent(string memory _delegation_key) public {
+    function set_consent(string memory _delegation_key) public {
         if (msg.sender == patient_addr){
             string memory _consent = "AUTHORIZED";
             string memory _description = "Access to prescription data was authorized by the patient";
