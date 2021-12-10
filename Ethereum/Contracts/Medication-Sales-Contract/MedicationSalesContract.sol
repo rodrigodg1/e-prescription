@@ -7,6 +7,8 @@ contract Sales{
     string medication;
     string dosage;
     uint256 amount=0;
+    uint256 price=0;
+    uint256 cents=0;
     address last_update_addr;
 
 
@@ -18,11 +20,13 @@ contract Sales{
     }
 
     //only the instance owner can create supply transactions
-    function sell_medication(string memory _medication, string memory _dosage, uint256  _amount) public {
+    function sell_medication(string memory _medication, string memory _dosage, uint256  _amount, uint256 _price, uint256 _cents) public {
         if (msg.sender == pharmacyAddr){
             medication = _medication;
             dosage = _dosage;
             amount = _amount;
+            price = _price;
+            cents = _cents;
             last_update_addr = msg.sender;
 
         }else{
