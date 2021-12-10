@@ -16,7 +16,7 @@ contract Reward {
         regulator = msg.sender;
     }
 
-    function sendBal(address payable receiver) payable external onlyOwner {
+    function send_reward(address payable receiver) payable external onlyOwner {
         uint256 amount = msg.value;
         receiver.transfer(amount);  
     }
