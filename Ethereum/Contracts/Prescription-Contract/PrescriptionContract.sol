@@ -19,7 +19,7 @@ contract Prescription{
     }
 
     //only doctor can create prescriptions transactions
-    function setPrescription(string memory _personal_id, string memory _medication, string memory _diagnosis) public {
+    function create_prescription(string memory _personal_id, string memory _medication, string memory _diagnosis) public {
         if (msg.sender == doctorAddr){
             personal_id = _personal_id;
             medication = _medication;
@@ -43,6 +43,10 @@ contract Prescription{
     function get_medication_info() public view returns (address,address, string memory){
         return (doctorAddr,patientAddr,medication);
     }
+
+
+
+
 
 
 
