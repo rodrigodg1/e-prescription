@@ -6,10 +6,14 @@ def write_prescription_size(path,prescription_file_size):
         f.write(str(prescription_file_size))
         f.write("\n")
 
-def write_memory_usage(path,peak,kb=True):
-    
+def write_memory_usage(path,peak,kb=False):
+
     if(kb):
+        print("\n converting to kb")
         peak = peak*0.001
+
+    #round to 3 decimal places
+    peak = round(peak, 2)
 
     with open(path, 'a') as f:
         f.write(str(peak))

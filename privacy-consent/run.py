@@ -51,8 +51,8 @@ def create_data_prescription_random(n,max_character_diagnosis=900000):
         #name = max 200 character
         #age = 18 up to 99
         patient_name = string.ascii_uppercase
-        min = 80
-        max = 550
+        min = 400
+        max = 800
         number_of_characters = randrange(min,max)
         patient_name = ''.join(random.choice(patient_name) for i in range(number_of_characters))
         patient_age = randrange(18,99)
@@ -63,13 +63,17 @@ def create_data_prescription_random(n,max_character_diagnosis=900000):
         create_separate_data(i,"personal_ID/","patient_personal_id_of_precription",patient_personal_id)
 
         #read from file for evaluation
-        personal_id_from_sep_file = read_file_for_evaluation("separate-prescription-data/personal_ID/patient_personal_id_of_precription",i,encode_=True)
-
+        path_file_personal_id = "separate-prescription-data/personal_ID/patient_personal_id_of_precription"
+        personal_id_from_sep_file = read_file_for_evaluation(path_file_personal_id,i,encode_=True)
+      
+        for_file_size = f"{path_file_personal_id}{i}"
+        print(f"\nIndividual Personal ID {i} file size: {file_size(for_file_size,kb=True)} kb")
 
 #EVALUATION
 ############################################################################################################################################
         #ENCRYPTION , DELEGATION, RE-ENCRYPTION AND DECRYPTION PERSONAL ID
 
+        print(f"\n\nEvaluating Personal ID {i}")
         capsule_personal_id,cipher_patient_personal_id = evaluation_encryption(doctor,personal_id_from_sep_file,patient1_public_key,"PERSONAL_ID")
         kfrags_personal_id = evaluation_delegation(patient1,patient1_secret_key,doctor_public_key,patient1_signer,"PERSONAL_ID")
         cfrags_personal_id = evaluation_reencryption(patient1,capsule_personal_id,kfrags_personal_id,"PERSONAL_ID")
@@ -87,8 +91,8 @@ def create_data_prescription_random(n,max_character_diagnosis=900000):
         #medication name max 100 char
         #dosage min 1 up to 1000
         medication_name = string.ascii_uppercase
-        min = 80
-        max = 350
+        min = 200
+        max = 500
         number_of_characters = randrange(min,max)
         medication_name = ''.join(random.choice(medication_name) for i in range(number_of_characters))
         dosage = randrange(1,1000)
@@ -100,13 +104,17 @@ def create_data_prescription_random(n,max_character_diagnosis=900000):
 
 
         #read from file for evaluation
-        medication_from_sep_file = read_file_for_evaluation("separate-prescription-data/medication/medication_of_prescription",i,encode_=True)
+        path_medication_file = "separate-prescription-data/medication/medication_of_prescription"
+        medication_from_sep_file = read_file_for_evaluation(path_medication_file,i,encode_=True)
+
+        for_file_size = f"{path_medication_file}{i}"
+        print(f"\nIndividual Medication {i} file size: {file_size(for_file_size,kb=True)} kb")
 
 
 #EVALUATION
 ############################################################################################################################################
         #ENCRYPTION , DELEGATION, RE-ENCRYPTION AND DECRYPTION MEDICATION DATA
-
+        print(f"\n\nEvaluating Medication {i}")
         capsule_medication,cipher_medication= evaluation_encryption(doctor,medication_from_sep_file,patient1_public_key,"MEDICATION")
         kfrags_medication = evaluation_delegation(patient1,patient1_secret_key,doctor_public_key,patient1_signer,"MEDICATION")
         cfrags_medication = evaluation_reencryption(patient1,capsule_medication,kfrags_medication,"MEDICATION")
@@ -128,20 +136,25 @@ def create_data_prescription_random(n,max_character_diagnosis=900000):
         diagnosis = create_diagnosis_data(diagnosis_data)
        # diagnosis = diagnosis.encode()
         end_time_for_create_diagnosis_data = time.time() - start_time_for_create_diagnosis_data
-        print(f"\nTime for create DIAGNOSIS data of Prescription {i} in s : {end_time_for_create_diagnosis_data} \n")
+
+        
+        #print(f"\nTime for create DIAGNOSIS data of Prescription {i} in s : {end_time_for_create_diagnosis_data} \n")
 
 
         #create a SEPARATE FILE for DIAGNOSIS PLAIN TEXT
         create_separate_data(i,"diagnosis/","diagnosis_of_prescription",diagnosis)
 
         #read from file for evaluation
-        diagnosis_from_sep_file = read_file_for_evaluation("separate-prescription-data/diagnosis/diagnosis_of_prescription",i,encode_=True)
+        path_diagnosis_file = "separate-prescription-data/diagnosis/diagnosis_of_prescription"
+        diagnosis_from_sep_file = read_file_for_evaluation(path_diagnosis_file,i,encode_=True)
 
+        for_file_size = f"{path_diagnosis_file}{i}"
+        print(f"\nIndividual Diagnosis {i} file size: {file_size(for_file_size,kb=True)} kb")
 
 #EVALUATION
 ############################################################################################################################################
         #ENCRYPTION , DELEGATION, RE-ENCRYPTION AND DECRYPTION DIAGNOSIS DATA
-
+        print(f"\n\nEvaluating Diagnosis {i}")
         capsule_diagnosis,cipher_diagnosis= evaluation_encryption(doctor,diagnosis_from_sep_file,patient1_public_key,"DIAGNOSIS")
         kfrags_diagnosis = evaluation_delegation(patient1,patient1_secret_key,doctor_public_key,patient1_signer,"DIAGNOSIS")
         cfrags_diagnosis = evaluation_reencryption(patient1,capsule_diagnosis,kfrags_diagnosis,"DIAGNOSIS")
@@ -249,7 +262,8 @@ while(True):
             #number_of_diagnosis_char = int(input("Diagnosis size (default = 900000): "))
 
             number_of_prescriptions = int(input("Number of prescriptions: "))
-            number_of_diagnosis_char = 11000000
+            number_of_diagnosis_char = 3000000
+            time.sleep(5)
             create_data_prescription_random(number_of_prescriptions,number_of_diagnosis_char)
             print(f"{bcolors.OKGREEN}\nSuccess !!!{bcolors.ENDC}")
         except Exception as e:
