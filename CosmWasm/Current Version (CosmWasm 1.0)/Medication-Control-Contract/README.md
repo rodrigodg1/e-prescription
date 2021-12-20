@@ -55,7 +55,7 @@ CODE_ID=1
 SENDER=$(wasmd keys show -a wallet)
 RECEIVER=$(wasmd keys show -a wallet2)
 
-$ INIT='{
+INIT='{
     "regulator":"'$SENDER'",
     "pharmacy":"'$RECEIVER'",
     "amount_medication_supplied":100,
