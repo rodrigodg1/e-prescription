@@ -41,7 +41,9 @@ wasmd query wasm list-code $NODE
 ```
 
 ### CONTRACT UPLOAD
+```console
 RES=$(wasmd tx wasm store medication_control_contract.wasm --from wallet $TXFLAG -y --output json)
+```
 
 ### CONTRACT CODE_ID
 ```console
