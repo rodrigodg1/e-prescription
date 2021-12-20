@@ -2,7 +2,7 @@
 
 Smart Contract for medication sales
 
-*** Run the commands inside contract directory ***
+***Run the commands inside contract directory***
 
 ### COMPILE CONTRACT
 ```console
