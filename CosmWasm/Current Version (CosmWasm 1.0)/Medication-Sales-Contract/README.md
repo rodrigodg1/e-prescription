@@ -4,6 +4,7 @@ Smart Contract for medication sales
 
 ***Run the commands inside contract directory***
 
+
 ### COMPILE CONTRACT
 ```console
 cargo wasm
@@ -50,7 +51,7 @@ wasmd query wasm list-code $NODE
 $ CODE_ID=1
 ```
 
-### PARA CRIAR UMA INSTANCIA
+### FOR INSTANCE CREATION
 ```console
 $ SENDER=$(wasmd keys show -a wallet)
 $ RECEIVER=$(wasmd keys show -a wallet2)
