@@ -1,2 +1,2 @@
-## Smart Contracts Implementation Using Ethereum
+## Smart Contracts Implementation Using Ethereum Platform
 
