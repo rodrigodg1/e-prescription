@@ -35,19 +35,22 @@ contract Prescription{
 
 
     //for patient and doctor
-    function get_prescription_info() public view returns (address,address, string memory ,string memory ,string memory ){
-        return (doctorAddr,patientAddr,personal_id,medication,diagnosis);
+    function get_prescription_info() public view returns (address,address, string memory ,string memory ,string memory, address ){
+        return (doctorAddr,patientAddr,personal_id,medication,diagnosis,last_update_addr);
+    }
+
+    function update_access() payable external {
+        //uint256 amount = msg.value;
+        //receiver.transfer(amount);  
+        last_update_addr = msg.sender;
     }
 
     // for pharmacy
-    function get_medication_info() public view returns (address,address, string memory){
-        return (doctorAddr,patientAddr,medication);
+    function get_medication_info() public view returns (address,address, string memory,address){
+        //last_update_addr = msg.sender;
+       
+        return (doctorAddr,patientAddr,medication,last_update_addr);
     }
-
-
-
-
-
 
 
 
