@@ -1,0 +1,26 @@
+{
+  "name": "ts-typed-json",
+  "version": "0.3.2",
+  "description": "JSON types and utilities for TypeScript.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dherman/ts-typed-json.git"
+  },
+  "author": "Dave Herman <david.herman@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dherman/ts-typed-json/issues"
+  },
+  "homepage": "https://github.com/dherman/ts-typed-json#readme",
+  "devDependencies": {
+    "@types/node": "^14.0.26",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {}
+}
