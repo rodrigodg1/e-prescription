@@ -8,3 +8,6 @@ It will be necessary:
  - **network provider** (e.g., ropsten testnet);
  - your **private key** to sign transactions (you can export from metamask wallet);
  - your **account address**
+
+video with steps: https://www.youtube.com/watch?v=rqjUuHcCMU4 
+
