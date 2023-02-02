@@ -2,7 +2,10 @@
 ## e-Prescription system using smart-contracts with privacy protection
 
 
-#### Please check the GitBook webpage: https://rodrigos-project.gitbook.io/e-prescription/
+
+<img src="https://user-images.githubusercontent.com/73913021/216422815-71caf77c-a865-479b-a359-0ad041d91006.png"  width=5% height=5%> 
+
+### Please check the GitBook webpage: https://rodrigos-project.gitbook.io/e-prescription/
 
 This repository contains the implementations of the contracts for the e-prescriptions model, descriptions and steps for execution. The scripts and steps used to perform the transaction tests were also made available in the directory of each platform.
 
