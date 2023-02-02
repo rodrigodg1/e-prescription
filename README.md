@@ -11,9 +11,3 @@ This repository contains the implementations of the contracts for the e-prescrip
 - [Prescription Data Generator](https://github.com/rodrigodg1/e-prescription/tree/master/prescription-data-generator)
 - [Privacy Consent Module](https://github.com/rodrigodg1/e-prescription/tree/master/privacy-consent) (PRE Mechanism Evaluation)
 
-
-
-
-
-
-
